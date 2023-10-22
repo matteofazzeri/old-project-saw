@@ -24,7 +24,7 @@ function showErrors($div , $textError, $x) {
 
     if($x) {
         echo "
-            <span class='error $div.'-error'' style='display: flex'>
+            <span class='error $div.'-error'' style='display: flex; align-items: center;'>
                 <i class='bi bi-x-circle error-icon'></i>
                 <p class='error-text'>$textError</p>
             </span>
@@ -41,10 +41,10 @@ function showErrors($div , $textError, $x) {
 }
 
 function showData($i) {
-    $fp = fopen("libs/users.txt", "r");
+    $fp = fopen("../src/libs/users.txt", "r");
     while ($line = fgets($fp)) {
         $data = explode("\t", $line);
-        if(trim($data[0]) == $_SESSION["username"]) {
+        if(trim($data[0]) == ($_SESSION["username"] ?? "")) {
             return $data[$i] ?? "";
         }
     }

@@ -129,7 +129,8 @@ if (isset($_POST["submit"]))
 
                     <!--strength bar-->
 
-                    <?php showErrors("pass", "Please enter at least 8 charatcer with number, symbol, small and capital letter.", $_SESSION['password-error'] ?? ""); ?>
+                    <?php showErrors("pass", "Please enter at least 8 charatcer with number, 
+                        symbol, small and capital letter.", $_SESSION['password-error'] ?? ""); ?>
                 </div>
             
                 <div class="field confirm-password-field">

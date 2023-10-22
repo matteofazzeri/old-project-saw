@@ -1,6 +1,6 @@
 <?php
 
-require ("../src/inc/config.php");
-include ("../src/libs/helpers.php");
-include ("../src/libs/sanitization.php");
-include ("../src/libs/validation.php");
+require (realpath("../src/inc/config.php"));
+include (realpath("../src/libs/helpers.php"));
+include (realpath("../src/libs/sanitization.php"));
+include (realpath("../src/libs/validation.php"));

@@ -19,6 +19,8 @@ include ("./libs/helpers.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="libs/form.css">
     <title>Home</title>
 </head>
 <body>
@@ -29,14 +31,14 @@ include ("./libs/helpers.php");
         <p>E-mail: <?php echo showData(0);?></p>
         <p>Name & Lastname: <?php echo showData(2);?></p>
         <p>Username: <?php echo showData(1);?></p>
-        
-    </div>
-
-    <?php 
+        <?php 
         if(isLogged()) 
             echo "<a href='logout.php'>Logout</a>"; 
         else
             echo "<a href='login.php'>Login</a>";
-    ?>
+        ?>
+    </div>
+
+    
 </body>
 </html>

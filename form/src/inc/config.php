@@ -1,9 +1,12 @@
 <?php
 
+include ("../src/libs/helpers.php");
+
 session_start();
 
-if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+if(isLogged()) {
     header("location: ../src/index.php");
+} else {
+    header("location: ../src/login.php");
 }
-
 

@@ -30,8 +30,6 @@ if (isset($_POST["submit"]))
                     if(!userExists($user_email)) {
                         // aggiungo l'utente al database
                         addUser($user_email, $user_name, $_POST['name-lastname'], $user_pass);
-                        // salvo lo username dell'utente, lo userò per mostrarlo a video.
-                        $_SESSION['user_data'] = $user_email. "\t". $user_name. "\t". $_POST['name-lastname'];
                         header("location: login.php");
                     } else {
                         echo "

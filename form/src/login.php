@@ -10,6 +10,7 @@ if (isset($_POST["submit"]))
             $_SESSION["email-error"] = false;
             if(checkLoginPassword($user_pass)) {
                 $_SESSION["password-error"] = false;
+
                 $_SESSION['login'] = true;
                 $_SESSION['username'] = $user_email;
                 echo "<script> alert('Login Successfull'); window.location.href = '../public/index.php'; </script>";
@@ -17,7 +18,6 @@ if (isset($_POST["submit"]))
         } else {
             $_SESSION["email-error"] = true;
             $_SESSION["password-error"] = true;
-            //echo "<script> document.querySelector('.form').document.querySelector('.password-field').classList.add('invalid); </script>";
         }
         
     } else {

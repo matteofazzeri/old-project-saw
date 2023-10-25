@@ -1,6 +1,4 @@
 <?php
-
-session_start();
-
-
-
+  session_start();
+  //echo session_name() . ": " . session_id();
+?>

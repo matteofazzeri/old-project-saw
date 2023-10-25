@@ -12,10 +12,10 @@ function checkEmail($email) {
 }
 
 function checkRegistrationPassword($p, $cpass) {
-    $lowercase = preg_match("/.*[a-z]+.*/", $p);
+    $lowercase = preg_match("/.*[a-zàèéìòù]+.*/", $p);
     $uppercase = preg_match("/.*[A-Z]+.*/", $p);
     $numbers = preg_match("/.*[0-9]+.*/", $p);
-    $character = preg_match("/.*[!£\$%&=?\^\+-\.,:;_|\*].*/", $p);
+    $character = preg_match("/.*[!|£\$%&=?\^\+-\.,:;_|\*].*/", $p);
 
     if (strlen($p) < 8) return false;
     if ($lowercase || $uppercase || $numbers || $character) {

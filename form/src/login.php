@@ -6,12 +6,18 @@ if (isset($_POST["submit"]))
     if (isset($_POST["email"]) && isset($_POST["pass"])) {
         $user_email = $_POST["email"];
         $user_pass = $_POST["pass"];
-        if(userExists($user_email) && checkLoginPassword($user_pass)) {
-            $_SESSION['login'] = true;
-            $_SESSION['username'] = $user_email;
-            echo "<script> alert('Login Successfull'); window.location.href = 'index.php'; </script>";
+        if(userExists($user_email)){ 
+            $_SESSION["email-error"] = false;
+            if(checkLoginPassword($user_pass)) {
+                $_SESSION["password-error"] = false;
+
+                $_SESSION['login'] = true;
+                $_SESSION['username'] = $user_email;
+                echo "<script> alert('Login Successfull'); window.location.href = '../public/index.php'; </script>";
+            }
         } else {
-            echo "<script> alert('Login error'); window.location.href = 'login.php'; </script>";
+            $_SESSION["email-error"] = true;
+            $_SESSION["password-error"] = true;
         }
         
     } else {
@@ -38,20 +44,23 @@ if (isset($_POST["submit"]))
             
                 <div class="field email-field">
                     <div class="input-field">
-                        <input type="text" name="email" placeholder="E-mail or Username" class="email">
+                        <input type="text" name="email" placeholder="E-mail or Username" class="email"
+                            value= <?php echo $user_email ?? ""?> >
                     </div>
             
-                    <span class="error email-error">
-                        <i class="bi bi-x-circle error-icon"></i>
-                        <p class="error-text">Please enter a valid email</p>
-                    </span>
+                    <?php showErrors("email", "Please enter a registered email",
+                        $_SESSION['email-error'] ?? false); ?>
                 </div>
                 
                 <div class="field password-field">
                     <div class="input-field">
-                        <input type="password" name="pass" placeholder="Password" class="password">
+                        <input type="password" name="pass" placeholder="Password" class="password"
+                            value= <?php echo $user_pass ?? ""?> >
                         <i class="bi bi-eye-slash show-hide"></i>
                     </div>
+
+                    <?php showErrors("pass", "Wrong password. Please try again.", 
+                        $_SESSION['password-error'] ?? false); ?>
                 </div>
                 
                 <div class="input-field submit-button">

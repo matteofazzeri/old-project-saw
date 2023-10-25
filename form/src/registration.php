@@ -14,24 +14,22 @@ if (isset($_POST["submit"]))
         // controllo che la mail sia corretta
         if (checkEmail($user_email)){
             //echo "error -> mail <br>";
-            $_SESSION['email-error'] = 0;
+            $email_error = 0;
 
             // controllo che il nome e cognome sia sintatticamente corretti
             if (preg_match("/^([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)$/", $_POST["name-lastname"])){
                 //echo "ok -> username <br>";
-                $_SESSION['name-lastname-error'] = 0;
+                $name_lastname_error = 0;
                 
                 //controllo che la password (e la conferma della password) sia corretta
                 if (checkRegistrationPassword($user_pass, $user_cPass)){
                     //echo "error -> password <br>";
-                    $_SESSION['password-error'] = 0;
+                    $password_error = 0;
                     
                     // controllo che l'utente non esista già per poterlo inserire nel database
                     if(!userExists($user_email)) {
                         // aggiungo l'utente al database
                         addUser($user_email, $user_name, $_POST['name-lastname'], $user_pass);
-                        // salvo lo username dell'utente, lo userò per mostrarlo a video.
-                        $_SESSION['user_data'] = $user_email. "\t". $user_name. "\t". $_POST['name-lastname'];
                         header("location: login.php");
                     } else {
                         echo "
@@ -43,17 +41,17 @@ if (isset($_POST["submit"]))
                 }
                 else{
                     //echo "ok -> password <br>";
-                    $_SESSION['password-error'] = 1;
+                    $password_error = 1;
                 }
             }
             else {
                 //echo "error -> username <br>";
-                $_SESSION['name-lastname-error'] = 1;
+                $name_lastname_error = 1;
             }
         }
         else {
             //echo "ok -> mail <br>";
-            $_SESSION['email-error'] = 1;
+            $email_error = 1;
         }
 
         
@@ -88,7 +86,7 @@ if (isset($_POST["submit"]))
                         <input type="text" name="email" placeholder="E-mail" class="email" required>
                     </div>
 
-                    <?php showErrors("email", "Please enter a valid email", $_SESSION['email-error'] ?? ""); ?>
+                    <?php showErrors("email", "Please enter a valid email", $email_error ?? ""); ?>
 
                 </div>
 
@@ -98,7 +96,7 @@ if (isset($_POST["submit"]))
                             pattern="([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)" required>
                     </div>
 
-                    <?php showErrors("name-lastname", "Please enter a valid name/lastname", $_SESSION['name-lastname-error'] ?? ""); ?>
+                    <?php showErrors("name-lastname", "Please enter a valid name/lastname", $name_lastname_error ?? ""); ?>
 
                 </div>
 
@@ -129,7 +127,8 @@ if (isset($_POST["submit"]))
 
                     <!--strength bar-->
 
-                    <?php showErrors("pass", "Please enter at least 8 charatcer with number, symbol, small and capital letter.", $_SESSION['password-error'] ?? ""); ?>
+                    <?php showErrors("pass", "Please enter at least 8 charatcer with number, 
+                        symbol, small and capital letter.", $password_error ?? ""); ?>
                 </div>
             
                 <div class="field confirm-password-field">
@@ -138,7 +137,7 @@ if (isset($_POST["submit"]))
                         <i class="bi bi-eye-slash show-hide"></i>
                     </div>
 
-                    <?php showErrors("cpass", "Passwords don't match", $_SESSION['password-error'] ?? ""); ?>
+                    <?php showErrors("cpass", "Passwords don't match", $password_error ?? ""); ?>
 
                 </div>
                 

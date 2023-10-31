@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    max-height: 100vh;
+}
+
+.cookie {
+    width: 60%;
+    margin: auto;
+    margin-top: 30vh;
+    padding: 3rem 6rem;
+    border-radius: 30px;
+    background-color: rgba(0, 0, 181, 0.686);
+}
+
+.cookie form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.data-input {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    padding: 1rem 2rem;
+    justify-content: space-evenly;
+}
+
+.data-input span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.data-input span input, .data-input span select {
+    margin-left: 5px;
+}
+
+.cookie form .submit-button {
+    width: 30px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+}
+
+.cookie form .submit-button input[name="set"] {
+    border: solid 1px black;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+}
+
+.cookie form .submit-button input[name="set"]:hover {
+    box-shadow: 0px 0px 2px 1px black;
+}

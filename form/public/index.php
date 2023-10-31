@@ -46,7 +46,7 @@ include (realpath("../src/inc/bootstrap.php"));
                     <p><?php echo showData(1);?></p>
                 </li>
             </ul>
-
+            <?php if(isLogged()) echo "<a href='../src/setcookie.php'>Try out cookie</a>";?>
         </div>
         <div class="logout">
             <?php 

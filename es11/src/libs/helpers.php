@@ -1,8 +1,10 @@
 <?php
 
 function isLogged():bool {
-    if($_SESSION['logged'])
-        return true;    
+    if(isset($_SESSION["logged"])){
+        if($_SESSION['logged'])
+            return true;
+    }
     return false;
 }
 

@@ -9,8 +9,10 @@ require __DIR__ . ('/../src/inc/included.php');
 ?>
 
 <?php 
-    display('head', ['title' => 'Home'])
+    display('head', ['title' => 'Home', 'css' => ['style', 'navbar']]);
+    display('header',[]);
 ?>
+
 
 
 <?php 

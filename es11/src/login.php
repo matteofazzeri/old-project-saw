@@ -15,8 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if (checkUser($_POST['email'], $_POST['pass'])) {
         $_SESSION['logged'] = true;
         $_SESSION['username'] = getUserName($_POST['email']);
+        $_SESSION['wrongdata'] = [];
         header('Location: ../public/index.php');
       } else {
+        $_SESSION['wrongdata'] = [$_POST['email'], $_POST['pass']];
         echo 'Wrong credentials!';
       }
     }
@@ -40,7 +42,8 @@ display('form', [
   'patterns' => [
     '^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
     '.{8,}'
-  ]
+  ],
+  'values' => $_SESSION['wrongdata'] ?? ['','']
 ]);
 
 display('foot');

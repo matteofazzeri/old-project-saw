@@ -8,7 +8,8 @@
 		foreach ($types as $index => $type) {
 			echo '<span class="input-field">';
 			echo '<input type= "' . $type . '" name="' . $names[$index] . '" id="' . $names[$index] .
-				'" placeholder="' . $placeholders[$index] . '" pattern="' . $patterns[$index] . '" required >';
+				'" placeholder="' . $placeholders[$index] . '" pattern="' . $patterns[$index] . '" required'. 
+        ' value="' . $values[$index] . '">';
 			echo '</span>';
 		}
 

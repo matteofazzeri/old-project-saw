@@ -39,8 +39,6 @@ function getUserName($mail): string {
   return 'ciao';
 }
 
-
-
 function checkUser($mail, $pass): bool {
   $fp = fopen(__DIR__ . '/../data/users.txt', 'r');
   while (!feof($fp)) {

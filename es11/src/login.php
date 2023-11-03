@@ -5,7 +5,7 @@ include 'inc/included.php';
 if (isLogged()) {
   header('Location: ../public/index.php');
   exit();
-} 
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
@@ -43,7 +43,7 @@ display('form', [
     '^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
     '.{8,}'
   ],
-  'values' => $_SESSION['wrongdata'] ?? ['','']
+  'values' => $_SESSION['wrongdata'] ?? ['', '']
 ]);
 
 display('foot');

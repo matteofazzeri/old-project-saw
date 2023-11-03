@@ -2,20 +2,20 @@
 ?>
 
 <div class="form-container">
-	<form action="#" method="post">
+  <form action="#" method="post">
 
-		<?php
-		foreach ($types as $index => $type) {
-			echo '<span class="input-field">';
-			echo '<input type= "' . $type . '" name="' . $names[$index] . '" id="' . $names[$index] .
-				'" placeholder="' . $placeholders[$index] . '" pattern="' . $patterns[$index] . '" required'. 
+    <?php
+    foreach ($types as $index => $type) {
+      echo '<span class="input-field">';
+      echo '<input type= "' . $type . '" name="' . $names[$index] . '" id="' . $names[$index] .
+        '" placeholder="' . $placeholders[$index] . '" pattern="' . $patterns[$index] . '" required' .
         ' value="' . $values[$index] . '">';
-			echo '</span>';
-		}
+      echo '</span>';
+    }
 
-		?>
+    ?>
 
-		<input type="submit" name="submit" value="Login">
+    <input type="submit" name="submit" value="Login">
 
-	</form>
+  </form>
 </div>

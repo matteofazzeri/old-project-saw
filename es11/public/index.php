@@ -16,7 +16,7 @@ display('header', []);
 
 <div class="container">
   <div>
-    <h1>Welcome <?php echo $user?></h1>
+    <h1>Welcome <?php echo $user ?></h1>
   </div>
 </div>
 

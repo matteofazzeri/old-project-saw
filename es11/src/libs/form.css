@@ -6,6 +6,7 @@ body {
 
 .form-container {
   margin-top: 100px;
+  width: 30rem;
 }
 
 form {
@@ -18,7 +19,7 @@ form {
 }
 
 form .input-field {
-  width: 300px;
+  width: 100%;
   margin-top: 7px;
   border: solid 1px rgb(0, 145, 255);
   border-radius: 5px;
@@ -30,8 +31,8 @@ form .input-field {
 }
 
 input[type="submit"] {
-  width: 300px;
-  margin-top: 1rem;
+  width: 100%;
+  margin-top: .6rem;
   border: solid 1px rgb(51, 0, 255);
   border-radius: 5px;
   padding: 0.5vw 1vw;
@@ -46,3 +47,41 @@ input[type="submit"]:hover {
 .input-field:hover {
   background-color: #eee;
 }
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 70%;
+  }
+
+  form {
+    padding: 1.5rem 2rem;
+  }
+
+  form .input-field {
+    margin-top: 3px;
+  }
+
+  input[type="submit"] {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    width: 70%;
+  }
+
+  form {
+    padding: 1.5rem 2rem;
+  }
+
+  form .input-field {
+    margin-top: 3px;
+  }
+
+  input[type="submit"] {
+    margin-top: 0.3rem;
+  }
+}
+
+

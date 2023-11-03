@@ -14,7 +14,11 @@ display('header', []);
 ?>
 
 
-<h1>Welcome <?php echo $user?></h1>
+<div class="container">
+  <div>
+    <h1>Welcome <?php echo $user?></h1>
+  </div>
+</div>
 
 
 <?php

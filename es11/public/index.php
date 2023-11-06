@@ -20,7 +20,6 @@ display('header', []);
   </div>
 </div>
 
-
 <?php
 display('foot')
 ?>

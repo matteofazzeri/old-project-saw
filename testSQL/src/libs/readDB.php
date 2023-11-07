@@ -6,7 +6,7 @@ function loginPwd($data): string {
   $res = queryMaker($query, $data);
 
   if(!empty($res))  return $res['pwd'];
-  return 'Error';
+  return 'Unknown';
 }
 
 function userExists($data): bool {
@@ -24,7 +24,7 @@ function id($data): string {
   $res = queryMaker($query, $data);
 
   if(!empty($res))  return $res['id'];
-  return 'Error';
+  return 'Unknown';
 }
 
 function dbInfo($id, $toFind): string {
@@ -34,5 +34,5 @@ function dbInfo($id, $toFind): string {
   $res = queryMaker($query, $data);
 
   if(!empty($res))  return $res[$toFind];
-  return 'Error';
+  return 'Unknown';
 }

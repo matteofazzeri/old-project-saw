@@ -1,1 +1,10 @@
-CREATE TABLE users ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, pwd VARCHAR(255) NOT NULL, email VARCHAR(100) NOT NULL, username VARCHAR(7) NOT null, created_at DATETIME NOT NULL DEFAULT CURRENT_TIME, UNIQUE(email, username) );
+CREATE TABLE users(
+	id INT(11) NOT null PRIMARY KEY,
+  username VARCHAR(8) NOT null,
+  email VARCHAR(100) NOT null,
+  name VARCHAR(255),
+  pwd VARCHAR(255) NOT null,
+  create_at DATETIME NOT null DEFAULT CURRENT_TIME,
+  UNIQUE(username, email)
+);
+

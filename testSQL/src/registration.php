@@ -26,26 +26,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $pwd = filter_var($_POST['pass']);
       $cpwd = filter_var($_POST['cpass']);
 
+      /* 
+      * controlli sintattici
+      * controlli sui valori presenti nel db -> solo per email e username
+      * i controlli sui valori vengono fatti direttamente dalle funzioni
+      */
 
+      if(checkAll($email, $username, $name, $pwd, $cpwd)){
+        /* connessione al db + passaggio dei dati di registrazione */
+        try {
+          require_once __DIR__ . '/inc/db.inc.php';
 
-      try {
-        require_once __DIR__ . '/inc/db.inc.php';
+          $query = "INSERT INTO users (name, pwd, email, username) VALUES (?, ?, ?, ?);";
+          
+          $stmt = $pdo->prepare($query);
 
-        $query = "INSERT INTO users (name, pwd, email, username) 
-                VALUES (?, ?, ?, ?);";
-        
-        $stmt = $pdo->prepare($query);
+          $stmt->execute(array($name, $pwd, $email, $username));
 
-        $stmt->execute(array($name, $pwd, $email, $username));
+          $pdo = null;
+          $stmt = null;
 
-        $pdo = null;
-        $stmt = null;
+          header('Location: login.php');
+          die();
 
-        header('Location: login.php');
-        die();
-
-      } catch (PDOException $e) {
-        die("Query failed: " . $e->getMessage());
+        } catch (PDOException $e) {
+          die("Query failed: " . $e->getMessage());
+        }
+      } else {
+        echo "Error -> unable to register";
       }
     }
   }

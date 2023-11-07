@@ -9,7 +9,17 @@ if (isLogged()) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
-    
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $pwd = filter_var($_POST['pass']);
+    if(userExists($email)) {
+      if($pwd === loginPwd($email)) {
+        $_SESSION['id'] = id($email);
+        $_SESSION['logged'] = true;
+        header('Location: ../public/index.php');
+      } else {
+        echo "Wrong password";
+      }
+    }
   }
 }
 

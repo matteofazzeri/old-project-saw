@@ -4,39 +4,6 @@ function sanitaze(string $data): string {
   return $data;
 }
 
-function checkLoginPassword($password) {
-  $fp = fopen("libs/users.txt", "r");
-  while ($line = fgets($fp)) {
-    $data = explode("\t", $line);
-    if (password_verify($password, trim($data[count($data) - 1])))
-      return true;
-  }
-  return false;
-}
-
-function userExists($data) {
-  require __DIR__ . '/../inc/db.inc.php';
-
-  try {
-    $query = "SELECT * FROM users WHERE email = :email;";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':email', $data);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    $pdo = null;
-    $stmt = null;
-
-    if(!empty($result)) return true;
-    else return false;
-
-    die();
-  }
-  catch (PDOException $e) {
-    die("Query failed: " . $e->getMessage());
-  }
-}
-
 /* input checker */
 
 function checkPwd($p, $cpass) {

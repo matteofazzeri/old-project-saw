@@ -39,14 +39,13 @@
                 <span>
                     <label for="text-font">Choose Font:</label>
                     <select name="text-font" id="text-font">
-                        <option value="arial">Arial</option>
-                        <option value="sans-serif">Sans Serif</option>
-                        <option value="monospace">monospace</option>
-                        <option value="fantasy">fantasy</option>
-                        <option value="cursive">cursive</option>
-                        <option value="serif">serif</option>
-                        <option value="verdana">verdana</option>
-
+                      <option value="arial" selected>Arial</option>
+                      <option value="sans-serif">Sans Serif</option>
+                      <option value="monospace">monospace</option>
+                      <option value="fantasy">fantasy</option>
+                      <option value="cursive">cursive</option>
+                      <option value="serif">serif</option>
+                      <option value="verdana">verdana</option>
                     </select>
                 </span>
             </div>

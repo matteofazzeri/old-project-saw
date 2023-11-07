@@ -1,7 +1,7 @@
 <?php
-  $textColor = $_COOKIE['text-color'];
-  $backColor = $_COOKIE['back-color'];
-  $textFont = $_COOKIE['text-font'];
+  $textColor = $_COOKIE['text-color'] ?? 'black';
+  $backColor = $_COOKIE['back-color'] ?? 'white';
+  $textFont = $_COOKIE['text-font'] ?? 'arial';
 ?>
 
 <!DOCTYPE html>

@@ -20,31 +20,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       * controllo che il nome inserito sia corretto relativamente alla regex
       * se tutto è corretto, allora loggo l'utenteù
       */
-      if(checkEmail($_POST['email'])) {
-        if(!loggedIn($_POST['email'])) { 
-          if(checkRegistrationPassword($_POST['pass'], $_POST['cpass'])) {
-            if(nameCheck($_POST['namelastname'])) {
-              header('Location: ./login.php');
-              $email = sanitaze($_POST['email']);
-              $pass = sanitaze($_POST['pass']);
-              $cpass = sanitaze($_POST['cpass']);
-              $name = sanitaze($_POST['namelastname']);
-              registerUser($email . "\t" . password_hash($pass, PASSWORD_BCRYPT) . "\t" . $name . "\n");
-            } else {
-              echo 'Name not valid!';
-            }
-          } else {
-            echo 'Password not valid!';
-          }
-        } else {
-          echo 'User already logged in!';
-        }
-        
-      } else {
-        echo 'Email not valid!';
-      }
+      $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+      $username = filter_var($_POST['username']);
+      $name = filter_var($_POST['namelastname']);
+      $pwd = filter_var($_POST['pass']);
+      $cpwd = filter_var($_POST['cpass']);
 
-      
+
+
+      try {
+        require_once __DIR__ . '/inc/db.inc.php';
+
+        $query = "INSERT INTO users (name, pwd, email, username) 
+                VALUES (?, ?, ?, ?);";
+        
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute(array($name, $pwd, $email, $username));
+
+        $pdo = null;
+        $stmt = null;
+
+        header('Location: login.php');
+        die();
+
+      } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+      }
     }
   }
 }
@@ -60,17 +62,18 @@ display('form', [
     (1) => (2)
     ---------------------------------------------
     */
-  'types' => ['text', 'email', 'password', 'password'],
-  'names' => ['namelastname', 'email', 'pass', 'cpass'],
-  'placeholders' => ['Name & Lastname', 'E-mail', 'Password', 'Confirm Password'],
+  'types' => ['text', 'text', 'email', 'password', 'password'],
+  'names' => ['namelastname', 'username', 'email', 'pass', 'cpass'],
+  'placeholders' => ['Name & Lastname', 'Matricola' , 'E-mail', 'Password', 'Confirm Password'],
   'patterns' => [
     // $ for ending line, ^ for starting line
     '^([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)$',
+    '^[Ss][0-9]{7}$',
     '^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
     '.{8,}',
     '.{8,}'
   ],
-  'values' => ['','','','']
+  'values' => ['','','','','']
 ]);
 
 display('foot');

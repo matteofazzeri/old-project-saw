@@ -1,7 +1,7 @@
 <?php 
 
 $serverName = "localhost";
-$dbName = "test";
+$dbName = "sawProject";
 
 $db = "mysql:host=$serverName;dbname=$dbName";
 $userName = "root";
@@ -15,5 +15,3 @@ try {
 } catch (PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
-
-?>

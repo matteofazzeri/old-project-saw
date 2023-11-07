@@ -14,6 +14,29 @@ function checkLoginPassword($password) {
   return false;
 }
 
+function userExists($data) {
+  require __DIR__ . '/../inc/db.inc.php';
+
+  try {
+    $query = "SELECT * FROM users WHERE email = :email;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':email', $data);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $pdo = null;
+    $stmt = null;
+
+    if(!empty($result)) return true;
+    else return false;
+
+    die();
+  }
+  catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage());
+  }
+}
+
 /* input checker */
 
 function checkPwd($p, $cpass) {
@@ -50,15 +73,6 @@ function nameCheck($data): bool {
   return preg_match("/([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)/", $data);
 }
 
-/* 
-* queste due funzioni verranno chiamata sia da
-* registration.php e da login.php 
-* il controllo regex per il login non servirebbe,
-* ma può essere utile per eventuali messaggi di errori specifici.
-* i controlli per poter vedere gli errori a schermo io li farei con js 
-* per poter avere avere un vista degli errori a tempo reale (per gli errori sintattici)
-*/
-
 function checkEmail($data): bool {
   return preg_match("/^[a-zA-Z\d\.]+@[a-zA-Z\d]+\.[a-z]{2,3}$/", $data);
 }
@@ -68,9 +82,6 @@ function checkUsername($data): bool {
 }
 
 function checkAll($email, $username, $name, $pwd, $cpwd): bool {
-  echo "email: " . checkEmail($email);
-  echo "username: " . checkUsername($username);
-  echo "name: " . nameCheck($name);
-  echo "pwd: " . checkPwd($pwd, $cpwd);
-  return checkEmail($email) and checkUsername($username) and nameCheck($name) and checkPwd($pwd, $cpwd);
+  return checkEmail($email) and checkUsername($username)
+    and nameCheck($name) and checkPwd($pwd, $cpwd) and !userExists($email);
 }

@@ -35,20 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if(checkAll($email, $username, $name, $pwd, $cpwd)){
         /* connessione al db + passaggio dei dati di registrazione */
         try {
-          require_once __DIR__ . '/inc/db.inc.php';
+          require __DIR__ . '/inc/db.inc.php';
 
-        $query = "INSERT INTO users (name, pwd, email, username) 
-                VALUES (:name, :pwd, :email, :username);";
-        
-        $stmt = $pdo->prepare($query);
+          $query = "INSERT INTO users (name, pwd, email, username) 
+                  VALUES (:name, :pwd, :email, :username);";
+          
+          $stmt = $pdo->prepare($query);
 
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':pwd', $pwd);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':username', $username);
+          $stmt->bindParam(':name', $name);
+          $stmt->bindParam(':pwd', $pwd);
+          $stmt->bindParam(':email', $email);
+          $stmt->bindParam(':username', $username);
 
-        $stmt->execute();
-          $stmt->execute(array($name, $pwd, $email, $username));
+          $stmt->execute();
 
           $pdo = null;
           $stmt = null;

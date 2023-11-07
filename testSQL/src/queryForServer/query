@@ -7,4 +7,3 @@ CREATE TABLE users(
   create_at DATETIME NOT null DEFAULT CURRENT_TIME,
   UNIQUE(username, email)
 );
-

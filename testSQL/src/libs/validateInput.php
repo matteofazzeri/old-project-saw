@@ -38,8 +38,7 @@ function checkLoginPassword($password) {
   return false;
 }
 
-function checkEmail($data)
-{
+function checkEmail($data): bool {
   $regex_email = "/^[a-zA-Z\d\.]+@[a-zA-Z\d]+\.[a-z]{2,3}$/";
   if (preg_match($regex_email, $data))
     return true;

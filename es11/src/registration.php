@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       * controllo che il nome inserito sia corretto relativamente alla regex
       * se tutto è corretto, allora loggo l'utenteù
       */
-      if(checkEmail($_POST['email'])) {
-        if(!loggedIn($_POST['email'])) { 
-          if(checkRegistrationPassword($_POST['pass'], $_POST['cpass'])) {
-            if(nameCheck($_POST['namelastname'])) {
+      if (checkEmail($_POST['email'])) {
+        if (!loggedIn($_POST['email'])) {
+          if (checkRegistrationPassword($_POST['pass'], $_POST['cpass'])) {
+            if (nameCheck($_POST['namelastname'])) {
               header('Location: ./login.php');
               $email = sanitaze($_POST['email']);
               $pass = sanitaze($_POST['pass']);
@@ -39,12 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
           echo 'User already logged in!';
         }
-        
       } else {
         echo 'Email not valid!';
       }
-
-      
     }
   }
 }

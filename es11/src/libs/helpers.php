@@ -1,6 +1,7 @@
 <?php
 
-function isLogged(): bool {
+function isLogged(): bool
+{
   if (isset($_SESSION["logged"])) {
     if ($_SESSION['logged'])
       return true;
@@ -8,13 +9,15 @@ function isLogged(): bool {
   return false;
 }
 
-function display(string $filename, array $data = []): void {
+function display(string $filename, array $data = []): void
+{
   foreach ($data as $key => $val)
     $$key = $val;
   require_once __DIR__ . '/../inc/' . $filename . '.php';
 }
 
-function loggedIn($mail): bool {
+function loggedIn($mail): bool
+{
   $fp = fopen(__DIR__ . '/../data/users.txt', 'r');
   while (!feof($fp)) {
     $data = explode("\t", fgets($fp));
@@ -27,7 +30,8 @@ function loggedIn($mail): bool {
   return false;
 }
 
-function getUserName($mail): string {
+function getUserName($mail): string
+{
   $fp = fopen(__DIR__ . '/../data/users.txt', 'r');
   while (!feof($fp)) {
     $data = explode("\t", fgets($fp));
@@ -39,13 +43,12 @@ function getUserName($mail): string {
   return 'ciao';
 }
 
-
-
-function checkUser($mail, $pass): bool {
+function checkUser($mail, $pass): bool
+{
   $fp = fopen(__DIR__ . '/../data/users.txt', 'r');
   while (!feof($fp)) {
     $data = explode("\t", fgets($fp));
-    if ($data[0] == $mail && password_verify($pass, $data[1])){
+    if ($data[0] == $mail && password_verify($pass, $data[1])) {
       fclose($fp);
       return true;
     }
@@ -54,13 +57,15 @@ function checkUser($mail, $pass): bool {
   return false;
 }
 
-function sanitaze($data): string {
+function sanitaze($data): string
+{
   $data = htmlspecialchars($data);
   $data = htmlentities($data);
   return $data;
 }
 
-function registerUser($data):void {
+function registerUser($data): void
+{
   $fp = fopen(__DIR__ . '/../data/users.txt', 'a');
   fwrite($fp, $data);
   fclose($fp);
@@ -76,13 +81,15 @@ function checkEmail($data)
   return false;
 }
 
-function nameCheck($data): bool {
+function nameCheck($data): bool
+{
   if (preg_match("/([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)/", $data))
     return true;
   return false;
 }
 
-function checkRegistrationPassword($p, $cpass) {
+function checkRegistrationPassword($p, $cpass)
+{
   $lowercase = preg_match("/.*[a-zàèéìòù]+.*/", $p);
   $uppercase = preg_match("/.*[A-Z]+.*/", $p);
   $numbers = preg_match("/.*[0-9]+.*/", $p);
@@ -111,7 +118,8 @@ function checkRegistrationPassword($p, $cpass) {
   return false;
 }
 
-function checkLoginPassword($password) {
+function checkLoginPassword($password)
+{
   $fp = fopen("libs/users.txt", "r");
   while ($line = fgets($fp)) {
     $data = explode("\t", $line);

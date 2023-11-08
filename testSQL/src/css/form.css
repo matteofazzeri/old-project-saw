@@ -72,7 +72,6 @@ input[type="submit"]:hover {
 
 .forgot-pwd > a {
   color: #006aa7;
-  text-decoration: none;
 }
 
 .forgot-pwd > a:hover {

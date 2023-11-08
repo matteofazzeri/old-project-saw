@@ -13,12 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pwd = filter_var($_POST['pass']);
     if (userExists($email)) {
       if ($pwd === loginPwd($email)) {
-
+        $_SESSION['id'] = id($email);
         /* controllo remember me */
         if (isset($_POST['remember'])) {
-          $_SESSION['id'] = id($email);
-          /* maybe we can just use $_SESSION['id'] to check if logged */
-          $_SESSION['logged'] = true;
           $rememberMe_id = randomString(64);
           setcookie('rmbme', $rememberMe_id, time() + 60 * 60 * 24 * 30);
 
@@ -28,12 +25,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           *   yes -> change the old expire value with the new one (generate a new token)
           *   no -> add the user in the table 
           */
+
+          /* $query_code = " INSERT INTO logged (users_id, token, keep_logged)
+                        VALUES (:users_id, :token, :keep_logged);";
+          $data = [
+            'users_id' => $_SESSION['id'],
+            'token' => $rememberMe_id,
+            'keep_logged' => 1
+          ];
+
+          queryMaker($query_code, $data); */
+
+
+          try {
+            require __DIR__ . '/inc/db.inc.php';
+
+            $query = "INSERT INTO logged (users_id, token, keep_logged)
+            VALUES (:users_id, :token, :keep_logged);";
+
+            $stmt = $pdo->prepare($query);
+            echo 'ciao1';
+            $log = 1;
+            $stmt->bindParam(':users_id', $_SESSION['id']);
+            $stmt->bindParam(':token', $rememberMe_id);
+            $stmt->bindParam(':keep_logged', $log);
+
+            $stmt->execute();
+            echo 'ciao2';
+            $pdo = null;
+            $stmt = null;
+          } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+          }
         } else {
           /*
           * add the user to the db:
           * no expire date, keep_logged = 0
           */
+          echo 'ciao3';
         }
+
+        $_SESSION['logged'] = true;
+        header('Location: ../public/index.php');
       } else {
         echo "Wrong password";
       }

@@ -49,6 +49,7 @@ function queryMaker($query_code, $data = [])
     $stmt = null;
 
     return $result;
+    die();
 
   } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage() . '<br/>' . $query_code);

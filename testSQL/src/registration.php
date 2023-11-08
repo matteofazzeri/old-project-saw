@@ -33,36 +33,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       */
 
       /* connessione al db + passaggio dei dati di registrazione */
-      try {
-        require __DIR__ . '/inc/db.inc.php';
+      if (!checkAll($email, $username, $name, $pwd, $cpwd)) {
+        // need to handle this error!! 
 
-        $query = "INSERT INTO users (name, pwd, email, username) 
-                VALUES (:name, :pwd, :email, :username);";
-
-        $stmt = $pdo->prepare($query);
-
-        if (!checkAll($email, $username, $name, $pwd, $cpwd)) {
-          /* need to handle this error!! */
-
-          echo "Error -> unable to register" . "<br/>";
-          die();
-        }
-
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':pwd', $pwd);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':username', $username);
-
-        $stmt->execute();
-
-        $pdo = null;
-        $stmt = null;
-
-        header('Location: login.php');
+        echo "Error -> unable to register" . "<br/>";
         die();
-      } catch (PDOException $e) {
-        die("Query failed: " . $e->getMessage());
       }
+
+      queryInsert(
+        "INSERT INTO users (name, pwd, email, username) 
+                VALUES (:name, :pwd, :email, :username);",
+        [
+          'name' => $name,
+          'pwd' => $pwd,
+          'email' => $email,
+          'username' => $username
+        ]
+      );
+      queryInsert(
+        "INSERT INTO logged (users_id, token, keep_logged) 
+                VALUES (:users_id, :token, :keep_logged);",
+        [
+          'users_id' => id($email),
+          'token' => '0',
+          'keep_logged' => 0
+        ]
+      );
+
+      header('Location: login.php');
+      die();
     }
   }
 }

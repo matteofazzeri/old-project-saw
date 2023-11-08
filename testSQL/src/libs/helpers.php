@@ -3,6 +3,19 @@
 /* need to add the check if the user has the autologin on */
 function isLogged(): bool
 {
+  $query = "SELECT keep_logged, users_id FROM logged WHERE token = :token_cookie;";
+  $data = [
+    'token_cookie' => $_COOKIE['rmbme'] ?? 'null'
+  ];
+
+  $result = queryMaker($query, $data);
+
+  if (!empty($result))
+    if ($result['keep_logged'] == 1) /* need to check expire date! */ {
+      $_SESSION['logged'] = true;
+      $_SESSION['id'] = dbInfo($result['users_id'], 'id');
+    }
+
   if (isset($_SESSION["logged"])) {
     if ($_SESSION['logged'])
       return true;
@@ -50,7 +63,26 @@ function queryMaker($query_code, $data = [])
 
     return $result;
     die();
+  } catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
+  }
+}
 
+function queryInsert($query_code, $data = [])
+{
+  require __DIR__ . '/../inc/db.inc.php';
+
+  try {
+    $query = $query_code;
+    $stmt = $pdo->prepare($query);
+
+    foreach ($data as $key => &$value)
+      $stmt->bindParam(':' . $key, $value);
+
+    $stmt->execute();
+
+    $pdo = null;
+    $stmt = null;
   } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
   }

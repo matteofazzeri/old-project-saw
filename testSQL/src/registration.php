@@ -32,34 +32,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       * i controlli sui valori vengono fatti direttamente dalle funzioni
       */
 
-      if(checkAll($email, $username, $name, $pwd, $cpwd)){
-        /* connessione al db + passaggio dei dati di registrazione */
-        try {
-          require __DIR__ . '/inc/db.inc.php';
+      /* connessione al db + passaggio dei dati di registrazione */
+      try {
+        require __DIR__ . '/inc/db.inc.php';
 
-          $query = "INSERT INTO users (name, pwd, email, username) 
-                  VALUES (:name, :pwd, :email, :username);";
-          
-          $stmt = $pdo->prepare($query);
+        $query = "INSERT INTO users (name, pwd, email, username) 
+                VALUES (:name, :pwd, :email, :username);";
 
-          $stmt->bindParam(':name', $name);
-          $stmt->bindParam(':pwd', $pwd);
-          $stmt->bindParam(':email', $email);
-          $stmt->bindParam(':username', $username);
+        $stmt = $pdo->prepare($query);
 
-          $stmt->execute();
+        if (!checkAll($email, $username, $name, $pwd, $cpwd)) {
+          /* need to handle this error!! */
 
-          $pdo = null;
-          $stmt = null;
-
-          header('Location: login.php');
+          echo "Error -> unable to register" . "<br/>";
           die();
-
-        } catch (PDOException $e) {
-          die("Query failed: " . $e->getMessage());
         }
-      } else {
-        echo "Error -> unable to register";
+
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':pwd', $pwd);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':username', $username);
+
+        $stmt->execute();
+
+        $pdo = null;
+        $stmt = null;
+
+        header('Location: login.php');
+        die();
+      } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
       }
     }
   }
@@ -78,7 +80,7 @@ display('form', [
     */
   'types' => ['text', 'text', 'email', 'password', 'password'],
   'names' => ['namelastname', 'username', 'email', 'pass', 'cpass'],
-  'placeholders' => ['Name & Lastname', 'Matricola' , 'E-mail', 'Password', 'Confirm Password'],
+  'placeholders' => ['Name & Lastname', 'Matricola', 'E-mail', 'Password', 'Confirm Password'],
   'patterns' => [
     // $ for ending line, ^ for starting line
     '^([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)$',
@@ -87,7 +89,8 @@ display('form', [
     '.{8,}',
     '.{8,}'
   ],
-  'values' => ['','','','','']
+  'values' => ['', '', '', '', ''],
+  'remember' => false
 ]);
 
 display('foot');

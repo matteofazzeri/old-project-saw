@@ -40,7 +40,7 @@ function nameCheck($data): bool {
   return preg_match("/([a-zA-Z]+[àèéìòù]*\s+)+([a-zA-Z]+[àèéìòù]*\s*)/", $data);
 }
 
-function checkEmail($data): bool {
+function wcheckEmail($data): bool {
   return preg_match("/^[a-zA-Z\d\.]+@[a-zA-Z\d]+\.[a-z]{2,3}$/", $data);
 }
 

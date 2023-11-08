@@ -5,17 +5,35 @@ include 'inc/included.php';
 if (isLogged()) {
   header('Location: ../public/index.php');
   exit();
-} 
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $pwd = filter_var($_POST['pass']);
-    if(userExists($email)) {
-      if($pwd === loginPwd($email)) {
-        $_SESSION['id'] = id($email);
-        $_SESSION['logged'] = true;
-        header('Location: ../public/index.php');
+    if (userExists($email)) {
+      if ($pwd === loginPwd($email)) {
+
+        /* controllo remember me */
+        if (isset($_POST['remember'])) {
+          $_SESSION['id'] = id($email);
+          /* maybe we can just use $_SESSION['id'] to check if logged */
+          $_SESSION['logged'] = true;
+          $rememberMe_id = randomString(64);
+          setcookie('rmbme', $rememberMe_id, time() + 60 * 60 * 24 * 30);
+
+          /* 
+          * connect to db to insert the rememberMe_id 
+          * - check if the user has an expire autologin
+          *   yes -> change the old expire value with the new one (generate a new token)
+          *   no -> add the user in the table 
+          */
+        } else {
+          /*
+          * add the user to the db:
+          * no expire date, keep_logged = 0
+          */
+        }
       } else {
         echo "Wrong password";
       }
@@ -41,7 +59,8 @@ display('form', [
     '^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
     '.{8,}'
   ],
-  'values' => $_SESSION['wrongdata'] ?? ['','']
+  'values' => $_SESSION['wrongdata'] ?? ['', ''],
+  'remember' => true
 ]);
 
 display('foot');

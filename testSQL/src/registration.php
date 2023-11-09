@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       */
 
       /* connessione al db + passaggio dei dati di registrazione */
-      if (!checkAll($email, $username, $name, $pwd, $cpwd) || userExists($email, $username)) {
+      if (!checkAll($email, $username, $name, $pwd, $cpwd)) {
         // need to handle this error!! 
 
         echo "Error -> unable to register" . "<br/>";
@@ -42,16 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
 
       queryInsert(
-        "INSERT INTO users (name, pwd, email, username) 
+        "INSERT zINTO users (name, pwd, email, username) 
                 VALUES (:name, :pwd, :email, :username);",
         [
           'name' => $name,
-          'pwd' => $pwd,
+          'pwd' => password_hash($pwd, PASSWORD_DEFAULT),
           'email' => $email,
           'username' => $username
         ]
       );
-      if(!queryInsert(
+      queryInsert(
         "INSERT INTO logged (users_id, token, keep_logged) 
                 VALUES (:users_id, :token, :keep_logged);",
         [
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           'token' => '0',
           'keep_logged' => 0
         ]
-      ))
+      );
 
       header('Location: login.php');
       die();

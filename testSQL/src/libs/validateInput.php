@@ -50,5 +50,5 @@ function checkUsername($data): bool {
 
 function checkAll($email, $username, $name, $pwd, $cpwd): bool {
   return checkEmail($email) and checkUsername($username)
-    and nameCheck($name) and checkPwd($pwd, $cpwd) and !userExists($email);
+    and nameCheck($name) and checkPwd($pwd, $cpwd) and !userExists($email, $username);
 }

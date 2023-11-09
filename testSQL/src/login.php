@@ -15,17 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $email = $_POST['email'];
 
     $pwd = filter_var($_POST['pass']);
-    if (userExists($email, '')) {
-      if ($pwd === loginPwd($email)) {
+    if (userExists($email, $email)) {
+      if (password_verify($pwd, loginPwd($email))) {
         $_SESSION['id'] = id($email);
         /* controllo remember me */
         if (isset($_POST['remember'])) {
           $rememberMe_id = randomString(64);
           setcookie('rmbme', $rememberMe_id, time() + 60 * 60 * 24 * 30);
 
-          /* 
-          * connect to db to edit the token, expire_date, keep_logged
-          */
+          /* connect to db to edit the token, expire_date, keep_logged */
 
           queryInsert(
             "UPDATE logged SET token = :token, expire_date = :expire_date, keep_logged = :keep_logged WHERE users_id = :users_id;",

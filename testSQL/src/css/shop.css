@@ -1,0 +1,57 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: rgb(245, 240, 233);
+}
+
+.item-card {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+
+.item-card > .item-description {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-description > .name {
+  padding: 4px;
+}
+
+.item-description > .divider > .info {
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  border-top: dotted 1px rgba(170, 170, 170, 0.289);
+}
+
+.item-description > .divider > .info > p > a {
+  color: rgb(1, 132, 132);
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+
+.sketchfab-embed-wrapper > .item-card > iframe {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: solid 1px black;
+}
+
+.sketchfab-embed-wrapper > .item-card:hover {
+  transition: all .4s ease-in;
+  box-shadow: 0px 0px 7px 0px black;
+  transform: scale(1.05);
+}

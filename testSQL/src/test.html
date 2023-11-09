@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="css/shop.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+
+    <style>
+      model-viewer {
+        width: 300px;
+        height: 300px;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sketchfab-embed-wrapper">
+      <div class="item-card">
+        <!-- 
+          pensavo di inserire le porzioni di codice html dentro al db,
+          e richiamarle come $item così da rendere tutto più pratico
+          così avremmo un ciclo che con i dati che gli arrivano dal db
+          mostri a schermo tutto quanto. con il fatto che avremo (almeno
+          ci starebbe come idea) anche la possibilità di ricercare per tipo
+          e altre flags, ci basta una query che richiami tutto ciò che ci serve
+          a seconda dei valori all'interno delle variabili che controllano
+          cosa l'utente vuole guardare (i valori di default fanno vedere tutto)
+        -->
+        <!-- <iframe
+          title="Jedi Star Fighter"
+          frameborder="0"
+          allowfullscreen
+          mozallowfullscreen="true"
+          webkitallowfullscreen="true"
+          allow="autoplay; fullscreen; xr-spatial-tracking"
+          xr-spatial-tracking
+          execution-while-out-of-viewport
+          execution-while-not-rendered
+          web-share
+          src="https://sketchfab.com/models/0b641c2f2b854f1f9ae7f2a731e44dbd/embed"
+        >
+        </iframe>
+        <span class="item-description">
+          <div class="name">Jedi Coso Figo</div>  --><!-- questo diventerà $itemName -->
+          <!-- <div class="divider">
+            <div class="info">
+              <p>By 
+                <a
+                href="https://sketchfab.com/petri.liuhto?utm_medium=embed&utm_campaign=share-popup&utm_content=0b641c2f2b854f1f9ae7f2a731e44dbd"
+                target="_blank"
+                rel="nofollow"
+                class="author"
+                >
+                  Petri Liuhto --> <!-- questo diventerà $author -->
+           <!--      </a>
+              </p>
+              <p class="item-price">8999&</p> --> <!-- questo diventerà $price -->
+           <!--  </div>
+          </div>
+        </span> -->
+      </div>
+
+
+      <model-viewer src="AEGIS-AVENGER.glb" camera-controls  alt="test"></model-viewer>
+
+      
+
+
+
+
+     <!--  <p
+        style="
+          font-size: 13px;
+          font-weight: normal;
+          margin: 5px;
+          color: #4a4a4a;
+        "
+      >
+        <a
+          href="https://sketchfab.com/3d-models/jedi-star-fighter-0b641c2f2b854f1f9ae7f2a731e44dbd?utm_medium=embed&utm_campaign=share-popup&utm_content=0b641c2f2b854f1f9ae7f2a731e44dbd"
+          target="_blank"
+          rel="nofollow"
+          style="font-weight: bold; color: #1caad9"
+        >
+          Jedi Star Fighter
+        </a>
+        by
+        <a
+          href="https://sketchfab.com/petri.liuhto?utm_medium=embed&utm_campaign=share-popup&utm_content=0b641c2f2b854f1f9ae7f2a731e44dbd"
+          target="_blank"
+          rel="nofollow"
+          style="font-weight: bold; color: #1caad9"
+        >
+          Petri Liuhto
+        </a>
+        on
+        <a
+          href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=0b641c2f2b854f1f9ae7f2a731e44dbd"
+          target="_blank"
+          rel="nofollow"
+          style="font-weight: bold; color: #1caad9"
+          >Sketchfab</a
+        >
+      </p> -->
+    </div>
+  </body>
+</html>

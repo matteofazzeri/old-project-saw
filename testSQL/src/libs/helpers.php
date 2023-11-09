@@ -3,18 +3,23 @@
 /* need to add the check if the user has the autologin on */
 function isLogged(): bool
 {
-  $query = "SELECT keep_logged, users_id FROM logged WHERE token = :token_cookie;";
-  $data = [
-    'token_cookie' => $_COOKIE['rmbme'] ?? 'null'
-  ];
+  $result = queryMaker(
+    "SELECT keep_logged, expire_date , users_id FROM logged WHERE token = :token_cookie;",
+    [
+      'token_cookie' => $_COOKIE['rmbme'] ?? 'null'
+    ]   
+  );
 
-  $result = queryMaker($query, $data);
-
-  if (!empty($result))
-    if ($result['keep_logged'] == 1) /* need to check expire date! */ {
-      $_SESSION['logged'] = true;
-      $_SESSION['id'] = dbInfo($result['users_id'], 'id');
+  if (!empty($result)){
+    /* check if the keep_logged flag is 1 (true) */
+    if ($result['keep_logged'] == 1) {
+      /* check if the  */
+      if($result['expire_date'] > date('Y-m-d H:i:s', time())) {
+        $_SESSION['logged'] = true;
+        $_SESSION['id'] = dbInfo($result['users_id'], 'id');
+      }
     }
+  }
 
   if (isset($_SESSION["logged"])) {
     if ($_SESSION['logged'])
@@ -62,7 +67,6 @@ function queryMaker($query_code, $data = [])
     $stmt = null;
 
     return $result;
-    die();
   } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
   }

@@ -9,10 +9,14 @@ function loginPwd($data): string {
   return 'Unknown';
 }
 
-function userExists($data): bool {
-  $query = "SELECT * FROM users WHERE email = :email;";
-  $data = ['email' => $data];
-  $res = queryMaker($query, $data);
+function userExists($email, $username): bool {
+  $res = queryMaker(
+    "SELECT * FROM users WHERE email = :email OR username = :username;",
+    [
+      'email' => $email,
+      'username' => $username
+    ]
+  );
 
   if(!empty($res))  return true;
   return false;

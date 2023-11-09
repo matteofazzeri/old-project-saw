@@ -9,9 +9,13 @@ if (isLogged()) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    /* $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); */
+    /* controllare che il valore $email sia una mail oppure un username */
+    if(checkEmail($_POST['email']) or checkUsername($_POST['email']))
+      $email = $_POST['email'];
+
     $pwd = filter_var($_POST['pass']);
-    if (userExists($email)) {
+    if (userExists($email, '')) {
       if ($pwd === loginPwd($email)) {
         $_SESSION['id'] = id($email);
         /* controllo remember me */
@@ -22,6 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           /* 
           * connect to db to edit the token, expire_date, keep_logged
           */
+
+          queryInsert(
+            "UPDATE logged SET token = :token, expire_date = :expire_date, keep_logged = :keep_logged WHERE users_id = :users_id;",
+            [
+              'token' => $rememberMe_id,
+              'expire_date' => date('Y-m-d H:i:s', time() + 60 * 60 * 24 * 30),
+              'keep_logged' => 1,
+              'users_id' => $_SESSION['id']
+            ]
+          );
 
         }
 

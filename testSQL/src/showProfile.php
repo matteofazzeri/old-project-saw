@@ -28,5 +28,9 @@ display('header', []);
       <h5>Password:</h5>
       <p><?php echo '************' ?></p>
     </span>
+    <span class="grid-line">
+      <h5>Registered:</h5>
+      <p><?php echo dbInfo($user_id, 'create_at') ?></p>
+    </span>
   <div>
 </div>

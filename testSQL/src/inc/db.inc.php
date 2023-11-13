@@ -6,7 +6,6 @@ $dbName = "sawProject";
 $db = "mysql:host=$serverName;dbname=$dbName";
 $userName = "root";
 $password = "";
-$dbName = "test";
 
 
 try {

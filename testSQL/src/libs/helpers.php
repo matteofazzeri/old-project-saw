@@ -1,29 +1,50 @@
 <?php
 
-/* need to add the check if the user has the autologin on */
+/* check if user is logged and has the autologin on */
 function isLogged(): bool
 {
-  $result = queryMaker(
-    "SELECT keep_logged, expire_date , users_id FROM logged WHERE token = :token_cookie;",
-    [
-      'token_cookie' => $_COOKIE['rmbme'] ?? 'null'
-    ]   
-  );
-
-  if (!empty($result)){
-    /* check if the keep_logged flag is 1 (true) */
-    if ($result['keep_logged'] == 1) {
-      /* check if the  */
-      if($result['expire_date'] > date('Y-m-d H:i:s', time())) {
-        $_SESSION['logged'] = true;
-        $_SESSION['id'] = dbInfo($result['users_id'], 'id');
-      }
-    }
-  }
-
   if (isset($_SESSION["logged"])) {
     if ($_SESSION['logged'])
       return true;
+  }
+
+  $result = queryMaker(
+    "SELECT keep_logged, expire_date, users_id FROM logged WHERE token = :token_cookie;",
+    ['token_cookie' => $_COOKIE['rmbme'] ?? 'null']
+  );
+
+  if (!empty($result)) {
+    /* check if the keep_logged flag is 1 (true) */
+    if ($result['keep_logged'] == 1) {
+      /* check if is expired */
+      if ($result['expire_date'] > date('Y-m-d H:i:s', time())) {
+        $_SESSION['logged'] = true;
+        $_SESSION['id'] = dbInfo($result['users_id'], 'id');
+        return isLogged();
+      }
+    }
+  }
+  return false;
+}
+
+// check if the user is an Admin
+function isAdmin(): bool
+{
+  if (isset($_SESSION["admin"])) {
+    if ($_SESSION['admin'])
+      return true;
+  }
+
+  $result = queryMaker(
+    "SELECT is_admin FROM admin WHERE users_id = :id;",
+    ['id' => $_SESSION['id'] ?? 'null']
+  );
+
+  if (!empty($result)) {
+    if ($result['is_admin'] == 1) {
+      $_SESSION['admin'] = true;
+      return isAdmin();
+    }
   }
   return false;
 }
@@ -52,7 +73,7 @@ function randomString($lenght = 64): string
 function queryMaker($query_code, $data = [])
 {
   require __DIR__ . '/../inc/db.inc.php';
-
+  $result = [];
   try {
     $query = $query_code;
     $stmt = $pdo->prepare($query);
@@ -61,7 +82,9 @@ function queryMaker($query_code, $data = [])
       $stmt->bindParam(':' . $key, $value);
 
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      array_push($result, $row);
+    }
 
     $pdo = null;
     $stmt = null;

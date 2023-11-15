@@ -7,7 +7,6 @@
 html, body {
   width: 100vw;
   min-height: 100vh;
-  background-color: rgb(245, 240, 233);
 }
 
 .item-card {
@@ -43,7 +42,6 @@ html, body {
   text-decoration: none;
 }
 
-
 .sketchfab-embed-wrapper > .item-card > iframe {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
@@ -54,17 +52,4 @@ html, body {
   transition: all .4s ease-in;
   box-shadow: 0px 0px 7px 0px black;
   transform: scale(1.05);
-}
-
-.form-container > form {
-  width: 100%;  
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-input {
-  border-radius: 10px;
-  border:solid 1px black;
-  padding: .7rem;
 }

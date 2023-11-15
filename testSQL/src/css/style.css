@@ -13,6 +13,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
+  background-color: rgb(245, 240, 233);
 }
 
 a {
@@ -69,4 +70,9 @@ input {
   color: rgb(0, 0, 0);
   font-weight: 500;
   cursor: pointer;
+}
+
+.admin-page > span > a {
+  color: black;
+  font-weight: 600;
 }

@@ -28,6 +28,6 @@ CREATE TABLE ship(
     name VARCHAR(255) NOT null UNIQUE,
     author VARCHAR(255) NOT null,
     link VARCHAR(255) NOT null UNIQUE,
-    price VARCHAR(255) NOT null DEFAULT 99999999,
+    price VARCHAR(255) NOT null,
     PRIMARY KEY (id)
 );

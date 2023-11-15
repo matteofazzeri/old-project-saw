@@ -37,6 +37,6 @@ function dbInfo($id, $toFind): string {
   $data = ['id' => $id];
   $res = queryMaker($query, $data);
 
-  if(!empty($res))  return $res[$toFind];
+  if(!empty($res))  return $res[0][$toFind];
   return 'Unknown';
 }

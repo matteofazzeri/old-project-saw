@@ -1,6 +1,3 @@
-<?php
-?>
-
 <div class="form-container">
   <form action="#" method="post">
 

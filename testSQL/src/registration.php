@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
 
       queryInsert(
-        "INSERT zINTO users (name, pwd, email, username) 
+        "INSERT INTO users (name, pwd, email, username) 
                 VALUES (:name, :pwd, :email, :username);",
         [
           'name' => $name,
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]
       );
 
-      header('Location: login.php');
+      header('Location: ./login.php');
       die();
     }
   }

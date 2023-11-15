@@ -14,6 +14,9 @@ display('header', []);
   <div>
     <h1>Welcome <?php echo dbInfo($user_id, 'name') ?></h1>
   </div>
+  <a href="../src/ecommerce.php">
+    <button class='shop-btn'>SHOP</button>
+  </a>
 </div>
 
 <?php

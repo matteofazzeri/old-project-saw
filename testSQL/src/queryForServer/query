@@ -16,3 +16,18 @@ CREATE TABLE logged (
   keep_logged int(1) NOT null DEFAULT 0,
   FOREIGN KEY(users_id) REFERENCES users(id)
 );
+
+CREATE TABLE admin (
+	users_id INT(11) PRIMARY KEY,
+    is_admin BOOLEAN DEFAULT false,    
+    FOREIGN KEY(users_id) REFERENCES users(id)
+);
+
+CREATE TABLE ship(
+	id INT(11) NOT null AUTO_INCREMENT,
+    name VARCHAR(255) NOT null UNIQUE,
+    author VARCHAR(255) NOT null,
+    link VARCHAR(255) NOT null UNIQUE,
+    price VARCHAR(255) NOT null DEFAULT 99999999,
+    PRIMARY KEY (id)
+);

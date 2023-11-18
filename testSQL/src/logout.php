@@ -2,7 +2,7 @@
 
 include ('./inc/included.php');
 
-queryInsert(
+insertValue(
   "UPDATE logged SET expire_date = :expire_date, keep_logged = :keep_logged WHERE users_id = :users_id;",
   [
     'expire_date' => date('Y-m-d H:i:s', time()),
@@ -12,6 +12,8 @@ queryInsert(
 );
 
 $_SESSION = [];
+$_SESSION['id'] = 0;
+$_SESSION['logged'] = false;
 
 session_unset();
 session_destroy();

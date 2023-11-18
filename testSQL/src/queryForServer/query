@@ -19,15 +19,25 @@ CREATE TABLE logged (
 
 CREATE TABLE admin (
 	users_id INT(11) PRIMARY KEY,
-    is_admin BOOLEAN DEFAULT false,    
-    FOREIGN KEY(users_id) REFERENCES users(id)
+  is_admin BOOLEAN DEFAULT false,    
+  FOREIGN KEY(users_id) REFERENCES users(id)
 );
 
 CREATE TABLE ship(
 	id INT(11) NOT null AUTO_INCREMENT,
-    name VARCHAR(255) NOT null UNIQUE,
-    author VARCHAR(255) NOT null,
-    link VARCHAR(255) NOT null UNIQUE,
-    price VARCHAR(255) NOT null,
-    PRIMARY KEY (id)
+  name VARCHAR(255) NOT null UNIQUE,
+  author VARCHAR(255) NOT null,
+  link VARCHAR(255) NOT null UNIQUE,
+  PRIMARY KEY (id)
 );
+
+CREATE TABLE shop(
+	ship_id INT(11) NOT null,
+  state VARCHAR(255) NOT null,
+  price VARCHAR(255) NOT null,
+  FOREIGN KEY(ship_id) REFERENCES ship(id)
+);
+
+/* INSERT NAVI */
+
+INSERT INTO `ship` (`name`, `author`, `link`, `price`) VALUES ()'Jedi Coso Figo', 'Petri Liuhto', 'https://sketchfab.com/models/0b641c2f2b854f1f9ae7f2a731e44dbd/embed?autospin=1', '1')

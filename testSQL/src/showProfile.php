@@ -5,10 +5,8 @@ if (!isLogged()) {
   header('Location: ../src/login.php');
 }
 
-
 display('head', ['title' => 'Profile', 'css' => ['style', 'navbar']]);
 display('header', []);
-
 ?>
 
 <div class="container">

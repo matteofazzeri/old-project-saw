@@ -7,7 +7,7 @@ if (!isLogged() or !isAdmin())
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
-    queryInsert(
+    insertValue(
       'INSERT INTO ship (name, author, link, price)
           VALUES (:name,:author,:link,:price)',
       [
@@ -28,15 +28,15 @@ echo '<div class="ship-add-container">';
   echo '<h4>Insert new ship<h4>';
 
   display('form', [
-    'types' => ['text', 'text', 'text', 'number'],
-    'names' => ['name', 'author', 'link', 'price'],
-    'placeholders' => ['Model Name', 'Author', 'Link', 'Price'],
-    'patterns' => ['.{,100}', '.{,100}', '.{,100}', '.{,15}'],
-    'values' => ['', '', '', ''],
+    'types' => ['text', 'text', 'text', 'number', 'checkbox', 'checkbox'],
+    'names' => ['name', 'author', 'link', 'price', 'new', 'used'],
+    'placeholders' => ['Model Name', 'Author', 'Link', 'Price', '', ''],
+    'patterns' => ['.{,100}', '.{,100}', '.{,100}', '.{,15}', '', ''],
+    'values' => ['', '', '', '', '', ''],
     'remember' => false
   ]);
   echo '<span class="tot-ship">Total ships in the database: &nbsp;';
-    echo queryMaker(
+    echo getAllElem(
       'SELECT COUNT(*) FROM ship',
       []
     )[0]['COUNT(*)'];

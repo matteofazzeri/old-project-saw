@@ -9,6 +9,26 @@ html, body {
   min-height: 100vh;
 }
 
+
+
+/* SELECTION BAR */
+.selection-bar {
+  width: 80%;
+  height: 30px;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  background-color: yellow;
+  margin-bottom: 10px;
+}
+
+.selection-bar > form {
+  position: absolute;
+}
+
+
+/* CARDS */
+
 .item-card {
   width: 300px;
   display: flex;
@@ -52,4 +72,24 @@ html, body {
   transition: all .4s ease-in;
   box-shadow: 0px 0px 7px 0px black;
   transform: scale(1.05);
+}
+
+.no-elem-found {
+  width: 100vw;
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.no-elem-found > p {
+  width: 500px;
+  text-align: center;
+  color: darkcyan;
+  font-size: 3rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: double 5px darkcyan;
+  border-radius: 20px;
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 7px 1px rgb(33, 225, 222, .6);
 }

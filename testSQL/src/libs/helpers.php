@@ -8,7 +8,7 @@ function isLogged(): bool
       return true;
   }
 
-  $result = queryMaker(
+  $result = getAllElem(
     "SELECT keep_logged, expire_date, users_id FROM logged WHERE token = :token_cookie;",
     ['token_cookie' => $_COOKIE['rmbme'] ?? 'null']
   );
@@ -35,13 +35,13 @@ function isAdmin(): bool
       return true;
   }
 
-  $result = queryMaker(
+  $result = getAllElem(
     "SELECT is_admin FROM admin WHERE users_id = :id;",
     ['id' => $_SESSION['id'] ?? 'null']
   );
 
   if (!empty($result)) {
-    if ($result['is_admin'] == 1) {
+    if ($result[0]['is_admin'] == 1) {
       $_SESSION['admin'] = true;
       return isAdmin();
     }
@@ -70,7 +70,7 @@ function randomString($lenght = 64): string
   return $randomString;
 }
 
-function queryMaker($query_code, $data = [])
+function getAllElem($query_code, $data = [])
 {
   require __DIR__ . '/../inc/db.inc.php';
   $result = [];
@@ -95,7 +95,30 @@ function queryMaker($query_code, $data = [])
   }
 }
 
-function queryInsert($query_code, $data = [])
+function getElem($query_code, $data = [])
+{
+  require __DIR__ . '/../inc/db.inc.php';
+
+  try {
+    $query = $query_code;
+    $stmt = $pdo->prepare($query);
+
+    foreach ($data as $key => $value)
+      $stmt->bindParam(':' . $key, $value);
+
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $pdo = null;
+    $stmt = null;
+
+    return $result;
+  } catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
+  }
+}
+
+function insertValue($query_code, $data = [])
 {
   require __DIR__ . '/../inc/db.inc.php';
 
@@ -105,7 +128,6 @@ function queryInsert($query_code, $data = [])
 
     foreach ($data as $key => &$value)
       $stmt->bindParam(':' . $key, $value);
-
     $stmt->execute();
 
     $pdo = null;

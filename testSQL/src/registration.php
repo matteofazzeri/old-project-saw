@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die();
       }
 
-      queryInsert(
+      insertValue(
         "INSERT INTO users (name, pwd, email, username) 
                 VALUES (:name, :pwd, :email, :username);",
         [
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           'username' => $username
         ]
       );
-      queryInsert(
+      insertValue(
         "INSERT INTO logged (users_id, token, keep_logged) 
                 VALUES (:users_id, :token, :keep_logged);",
         [

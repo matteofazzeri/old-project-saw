@@ -18,9 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     /* 
     * con la chiamata a loginPwd controllo indirettamente che l'utente esista oppure no
     * questo perché se l'utente non esiste, allora non esiste nemmeno alcuna pwd. 
-    * mi sono accorto ora che manca il controllo backend che la pwd sia corretta
+    * mi sono accorto ora che manca il controllo che la pwd sia corretta
     * o che almeno abbia inserito qualcosa nella casella
     */
+
     if (password_verify($pwd, loginPwd($email))) {
       $_SESSION['id'] = id($email);
       /* controllo remember me */
@@ -52,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 display('head', ['title' => 'Login', 'css' => ['style', 'navbar', 'form']]);
 display('header');
 
+
+/* display form mostra inc/form.php */
 display('form', [
   /* 
   *  how to use form with display function:

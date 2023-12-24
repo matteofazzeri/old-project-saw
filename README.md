@@ -5,5 +5,5 @@ Per poter visualizzare il sito:
 - aprire la cartella sawProject/client da terminale e lanciare il comando
 
 ```bash
-npm run dev
+$ npm run dev
 ```

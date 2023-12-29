@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useSnapshot } from "valtio";
 
 // components & settings
-import config from "../config/config";
+import serverURL from "../config/config";
 import CustomButton from "../components/CustomButton";
 import FormInput from "../components/FormInput";
 import settings from "../settings/state";
@@ -29,44 +29,67 @@ const Forms = () => {
         .max(15, "Must be 15 characters or less")
         .required(""),
       email: Yup.string().email("Invalid email address").required(""),
-      password: Yup.string()
-        .min(8, "Must be 8 characters or more")
-        .max(20, "Must be 20 characters or less")
-        .matches(
-          /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-          "Password must contain at least 8 characters, one uppercase, one number and one special case character"
-        )
-        .required(""),
       username: Yup.string()
         .min(3, "Must be 3 characters or more")
         .max(15, "Must be 15 characters or less")
         .required(""),
+      password: Yup.string()
+        .min(8, "Must be 8 characters or more")
+        .max(20, "Must be 20 characters or less")
+        .matches(
+          /*
+            (?=.{8,}) - at least 8 characters
+            (?=.*[!@#$%^&*()\-_=+{};:,<.>]) - at least one special character
+            (?=.*\d) - at least one number
+            (?=.*[a-z]) - at least one lowercase letter
+            (?=.*[A-Z]) - at least one uppercase letter
+            */
+          /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+          "Password must contain at least 8 characters, one uppercase, one number and one special case character"
+        )
+        .required(""),
+
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required(""),
     }),
 
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // need to make a json object
+      let inputData = JSON.stringify(values, null, 2);
+      /* alert(inputData); */
+      let info = {
+        method: "POST",
+        body: inputData,
+      };
+
+      //console.log(`${serverURL.development.backendUrl}/forms?registration=0`);
 
       // need to fetch
-
-      // analyse the returned data
+      fetch(`${serverURL.development.backendUrl}/forms?registration=0`, info)
+        .then((res) => res.json())
+        // analyse the returned data
+        .then((data) => {
+          // need to update userInfo values
+          let info = data;
+          console.log(info);
+        })
+        // if error
+        // - show error message
+        .catch((err) => console.log(err));
 
       // if success
       // - redirect to homepage
 
       // - clear form fields
-      formik.resetForm();
 
-      // if error
-      // - show error message
+      //formik.resetForm();
     },
   });
 
   return (
     <>
-    {/* need to make some condition to see if the user already logged or not */}
+      {/* need to make some condition to see if the user already logged or not */}
       {true ? (
         <FormWrapper>
           <form onSubmit={formik.handleSubmit}>
@@ -130,7 +153,9 @@ const Forms = () => {
             />
           </form>
         </FormWrapper>
-      ) : console.log(snap.pageTitle)}
+      ) : (
+        console.log(snap.pageTitle)
+      )}
     </>
   );
 };

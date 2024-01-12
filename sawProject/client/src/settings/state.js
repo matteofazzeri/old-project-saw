@@ -4,6 +4,7 @@ const state = proxy({
   pageTitle: "home",
   color: "#EFBD48",
   form: "login",
+  sidebarOpen: false,
 });
 
 const userInfo = proxy({

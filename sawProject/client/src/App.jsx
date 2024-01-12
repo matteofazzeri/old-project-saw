@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 //components
 
 // pages
-import Home from "./pages/Home";
+import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import ErrorPage from "./pages/404";
 import Forms from "./pages/Forms";
@@ -14,8 +14,8 @@ function App() {
     <main className="app">
       <BrowserRouter>
         <Routes>
-        <Route index element={<Home />} />
-        <Route path="/home" element={<Home />} />
+        <Route index element={<Homepage />} />
+        <Route path="/home" element={<Homepage />} />
         <Route path="/profile/*" element={<Profile />} />
         <Route path="/forms/*" element={<Forms />} />
         <Route path="*" element={<ErrorPage />} />

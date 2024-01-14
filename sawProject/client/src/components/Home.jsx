@@ -12,6 +12,7 @@ import AnimatedText from "../components/AnimatedText";
 
 const Home = () => {
   const { state, userInfo } = settings;
+  const snapUser = useSnapshot(userInfo);
 
   const containerAnimationProps = {
     initial: {},
@@ -31,9 +32,9 @@ const Home = () => {
     <section id="home" className="w-[90%] m-auto relative">
       {/* check if snap.loggedIn is true or false from localstorage */}
 
-      <div className="h-[90vh] absolute bottom-0 flex-col align-middle pt-12 md:pt-32 z-0">
+      <div className="h-[98vh] w-full absolute bottom-0 flex-col align-middle">
         <motion.h1
-          className="text-4xl sm:text-5xl lg:text-[8rem] leading-tight font-['Nasastyle'] text-white uppercase"
+          className="text-4xl sm:text-5xl md:text-[6rem] lg:text-[7rem] xl:text-[8rem] leading-tight font-['Nasastyle'] text-white uppercase"
           animate={{ x: [null, 10, 0] }} 
           transition={{ ease: "linear", duration: 1 }}
         >
@@ -63,16 +64,15 @@ const Home = () => {
             repeat: Infinity,
             repeatDelay: 30,
           }}
-          className="fixed inset-x-0 flex items-center justify-center
-                        md:w-[90%] md:mx-auto md:my-[100px] md:flex md:justify-center"
+          className="w-[100%] flex justify-center md:pt-[5%]"
         >
-          {/* <CustomButton
+          <CustomButton
             customStyles={"bg-yellow-600 text-white w-fit"}
             handleClick={() => {
               window.location.href = "/forms";
             }}
             title={snapUser.loggedIn ? "Continue Adventure" : "Start Adventure"}
-          /> */}
+          />
         </motion.div>
       </div>
     </section>

@@ -8,6 +8,7 @@ import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import ErrorPage from "./pages/404";
 import Forms from "./pages/Forms";
+import Store from "./pages/Store";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<Homepage />} />
         <Route path="/profile/*" element={<Profile />} />
         <Route path="/forms/*" element={<Forms />} />
+        <Route path="/store/*" element={<Store />} />
         <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

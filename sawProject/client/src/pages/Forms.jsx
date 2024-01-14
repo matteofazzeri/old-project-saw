@@ -55,6 +55,7 @@ const Forms = () => {
     }),
 
     onSubmit: (values) => {
+
       // need to make a json object
       let inputData = JSON.stringify(values, null, 2);
       /* alert(inputData); */

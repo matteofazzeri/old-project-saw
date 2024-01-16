@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { motion } from "framer-motion";
-
 import { useSnapshot } from "valtio";
+
+// settings
 import settings from "../settings/state";
-import { Link as GoTo, animateScroll as scroll } from "react-scroll";
 
 // components
 import CustomButton from "../components/CustomButton";
@@ -29,20 +28,20 @@ const Home = () => {
     exit: { opacity: 0, y: -20 },
   };
   return (
-    <section id="home" className="w-[90%] m-auto relative">
+    <section id="home" className="h-fit w-screen">
       {/* check if snap.loggedIn is true or false from localstorage */}
 
-      <div className="h-[98vh] w-full absolute bottom-0 flex-col align-middle">
+      <div className="text-white w-[95%] mx-auto mt-32">
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-[6rem] lg:text-[7rem] xl:text-[8rem] leading-tight font-['Nasastyle'] text-white uppercase"
-          animate={{ x: [null, 10, 0] }} 
+          className="uppercase text-4xl md:text-9xl font-[Nasastyle]"
+          animate={{ x: [null, 10, 0] }}
           transition={{ ease: "linear", duration: 1 }}
         >
-          start your <br className="flex" /> new adventure
+          start your <br className="" /> new adventure
         </motion.h1>
-        <div id="home" className="my-6">
+        <div id="home" className="mt-4">
           <AnimatedText
-            customStyles={"text-white text-xl text-wrap"}
+            customStyles={"text-xl text-wrap"}
             text={`Embark on Infinite Journeys with Us: Your Gateway to the Stars!
                 We're the pioneers in spacecraft technology, bringing the wonders of space closer to you.
                 With showrooms spanning galaxies, we make space travel accessible to all.
@@ -51,7 +50,7 @@ const Home = () => {
             letterAnimationProps={letterAnimationProps}
           />
         </div>
-        
+
         <motion.div
           animate={{
             rotate: [0, -5, 5, -5, 5, 0],
@@ -64,7 +63,7 @@ const Home = () => {
             repeat: Infinity,
             repeatDelay: 30,
           }}
-          className="w-[100%] flex justify-center md:pt-[5%]"
+          className="w-full flex items-center justify-center mt-24"
         >
           <CustomButton
             customStyles={"bg-yellow-600 text-white w-fit"}

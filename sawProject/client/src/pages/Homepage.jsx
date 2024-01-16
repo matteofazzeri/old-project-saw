@@ -29,7 +29,6 @@ const Homepage = () => {
     <>
       <Navbar />
       <Home />
-      <AboutUs />
     </>
   );
 };

@@ -6,7 +6,7 @@ import settings from "../settings/state";
 
 const Navbar = () => {
   let { isOpen, setIsOpen } = useState(false);
-  const [search, setSearch] = useState(localStorage.getItem("searchElem") || "");
+  const [search, setSearch] = useState(sessionStorage.getItem("searchElem") || "");
   const [category, setCategory] = useState("all");
 
   const { state, userInfo } = settings;
@@ -25,7 +25,7 @@ const Navbar = () => {
   };
 
   const handleSearchChange = (e) => {
-    localStorage.setItem("searchElem", e.target.value);
+    sessionStorage.setItem("searchElem", e.target.value);
     setSearch(e.target.value);
   };
 

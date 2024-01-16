@@ -19,7 +19,7 @@ function getElem($query_code, $data = [])
     $stmt = null;
 
     
-    echo '<pre>' . json_encode($result, JSON_PRETTY_PRINT) . '</pre>';
+    echo json_encode($result, JSON_PRETTY_PRINT)  ;
     //echo json_encode($result, JSON_PRETTY_PRINT);
 
   } catch (PDOException $e) {

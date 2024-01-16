@@ -2,7 +2,7 @@
 
 const serverURL = {
   development: {
-    backendUrl: "http://localhost/website/saw-projectc/sawProject/server/api",
+    backendUrl: "http://localhost/website/saw-projectc/sawProject/server/",
   },
   production: {
     backendUrl: "#",

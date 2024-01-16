@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // settings
@@ -6,17 +6,20 @@ import serverURL from "../config/config";
 
 // components
 import Navbar from "../components/Navbar";
+import Card from "../components/Card";
 
 const Store = () => {
-  const item = null;
+  const [items, setItems] = useState([]);
+
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const category = params.get("categories");
   const search = params.get("search");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (categories && search) {
+        if (category && search) {
           //window.location.href = `${serverURL.development.backendUrl}/shop?categories=${category}&search=${search}`;
 
           await fetch(
@@ -24,7 +27,10 @@ const Store = () => {
             { method: "GET" }
           )
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+              setItems(data);
+              //console.log(data);
+            })
             .catch((err) => console.log(err));
         }
       } catch (error) {
@@ -42,7 +48,15 @@ const Store = () => {
     <>
       <Navbar />
       <section className="w-full h-fit pt-20 md:pt-24 text-white">
-        {item === null && <p>Search Something...</p>}
+        {items === null || items === undefined ? (
+          <p>Search Something...</p>
+        ) : (
+          <div id="card-container" className="">
+            {items.map((item) => (
+              <Card key={item.id} item={item} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

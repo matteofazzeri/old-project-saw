@@ -46,5 +46,3 @@ function insertValue($query_code, $data = [])
   }
 }
 
-getElem("SELECT name, email, username, create_at FROM `users`");
-

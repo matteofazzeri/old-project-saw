@@ -6,7 +6,7 @@ import settings from "../settings/state";
 
 const Navbar = () => {
   let { isOpen, setIsOpen } = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(localStorage.getItem("searchElem") || "");
   const [category, setCategory] = useState("all");
 
   const { state, userInfo } = settings;
@@ -25,6 +25,7 @@ const Navbar = () => {
   };
 
   const handleSearchChange = (e) => {
+    localStorage.setItem("searchElem", e.target.value);
     setSearch(e.target.value);
   };
 
@@ -37,8 +38,9 @@ const Navbar = () => {
 
     // check if search bar has something to be searched
     if (!(search === "" || search === undefined)) {
-      window.location.href = `/shop?categories=${category}&search=${search}`;
-      console.log(`categories=${category}&search=${search}`);
+      const attribute = `categories=${category}&search=${search}`;
+      console.log(attribute);
+      window.location.href = `/shop?${attribute}`;
     }
   };
 
@@ -110,6 +112,7 @@ const Navbar = () => {
                   name="search"
                   id="search"
                   placeholder="Hypersonic spaceship..."
+                  value={search}
                   className="text-gray-500 bg-white outline-none px-1 h-full w-full"
                   onChange={handleSearchChange}
                 />

@@ -2,25 +2,17 @@
 // process-data.php
 
 header("Access-Control-Allow-Origin: *");
-
-$requestURL = explode('/', $_SERVER['REQUEST_URI']);
-
-$URL_lenght = $requestURL[count($requestURL) - 1];
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type");
 
 
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require __DIR__ . "/post/post.php";
+$requestURL = $_SERVER['REQUEST_URI'];
+
+if (strpos($requestURL, "forms")) {
+    // TODO: send request to form.php file 
+} else if (strpos($requestURL, "shop")) {
+    require __DIR__ . "/shop/shop.php";
+} else if (strpos($requestURL, "users")) {
+    require __DIR__ . "/users/users.php";
 }
-else if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    require __DIR__ . "/get.php";
-}
-else if($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    require __DIR__ . "/put.php";
-}
-else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    require __DIR__ . "/delete.php";
-}
-else {
-    echo "Invalid request";
-}
-?>
+

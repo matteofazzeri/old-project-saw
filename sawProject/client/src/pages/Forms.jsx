@@ -55,7 +55,6 @@ const Forms = () => {
     }),
 
     onSubmit: (values) => {
-
       // need to make a json object
       let inputData = JSON.stringify(values, null, 2);
       /* alert(inputData); */
@@ -68,7 +67,12 @@ const Forms = () => {
 
       // need to fetch
       fetch(`${serverURL.development.backendUrl}/forms?registration=0`, info)
-        .then((res) => res.json())
+        .then((res) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          res.json();
+        })
         // analyse the returned data
         .then((data) => {
           // need to update userInfo values
@@ -77,7 +81,7 @@ const Forms = () => {
         })
         // if error
         // - show error message
-        .catch((err) => console.log(err));
+        .catch((err) => console.log("ups an error occurred\n", err));
 
       // if success
       // - redirect to homepage

@@ -6,7 +6,9 @@ import settings from "../settings/state";
 
 const Navbar = () => {
   let { isOpen, setIsOpen } = useState(false);
-  const [search, setSearch] = useState(sessionStorage.getItem("searchElem") || "");
+  const [search, setSearch] = useState(
+    sessionStorage.getItem("searchElem") || ""
+  );
   const [category, setCategory] = useState("all");
 
   const { state, userInfo } = settings;
@@ -185,17 +187,22 @@ const Navbar = () => {
             className="hidden flex-col z-50 fixed top-0 right-0 h-[100vh] w-[50%] bg-blue-800/50 shadow-[0_2px_6px_3px_rgba(199,193,193,0.3)]
                         text-white align-middle justify-start py-6 backdrop-blur-sm"
           >
-            <li className="w-[100%]" onClick={setIsOpen}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 -960 960 960"
-                width="24"
-                fill="white"
-                className="hover:bg-slate-500/40 rounded-full mx-3 mb-10 border"
-              >
-                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
+            <li className="w-full h-fit flex items-center align-middle justify-around flex-row border-b-[1px] pb-4 border-dotted">
+              <span className="w-fit flex items-center align-middle h-fit flex-col" onClick={setIsOpen}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24"
+                  viewBox="0 -960 960 960"
+                  width="24"
+                  fill="white"
+                  className="hover:bg-slate-500/40 rounded-full border bg-slate-400"
+                >
+                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
+              </span>
+              <Link to="/">
+                <img className="w-44" src="startSAW.png" alt="Logo" />
+              </Link>
             </li>
             <li className="px-4 py-2 w-full">
               <a href="/#home">Home</a>

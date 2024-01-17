@@ -6,7 +6,7 @@ require __DIR__ . '/../inc/inc.php';
 $serchItem = $_GET['search'];
 
 echo getElem(
-    "SELECT * FROM `ship` WHERE `name` LIKE :search",
+    "SELECT * FROM `products` WHERE `name` LIKE :search",
     [
         'search' => '%' . $serchItem . '%'
     ]

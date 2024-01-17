@@ -28,12 +28,12 @@ const Home = () => {
     exit: { opacity: 0, y: -20 },
   };
   return (
-    <section id="home" className="h-fit w-screen">
+    <section id="home" className="h-screen w-screen">
       {/* check if snap.loggedIn is true or false from localstorage */}
 
-      <div className="text-white w-[95%] mx-auto mt-32">
+      <div className="text-white w-[95%] mx-auto pt-20 sm:pt-28 md:pt-48">
         <motion.h1
-          className="uppercase text-4xl md:text-9xl font-[Nasastyle]"
+          className="uppercase text-4xl sm:text-7xl md:text-8xl xl:text-9xl font-[Nasastyle]"
           animate={{ x: [null, 10, 0] }}
           transition={{ ease: "linear", duration: 1 }}
         >
@@ -63,7 +63,7 @@ const Home = () => {
             repeat: Infinity,
             repeatDelay: 30,
           }}
-          className="w-full flex items-center justify-center mt-24"
+          className="w-full flex items-center justify-center mt-12 md:mt-24"
         >
           <CustomButton
             customStyles={"bg-yellow-600 text-white w-fit"}

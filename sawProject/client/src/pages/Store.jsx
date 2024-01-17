@@ -29,7 +29,7 @@ const Store = () => {
             .then((res) => res.json())
             .then((data) => {
               setItems(data);
-              //console.log(data);
+              console.log(data);
             })
             .catch((err) => console.log(err));
         }
@@ -48,8 +48,11 @@ const Store = () => {
     <>
       <Navbar />
       <section className="w-full h-fit pt-20 md:pt-24 text-white">
-        {items === null || items === undefined ? (
-          <p>Search Something...</p>
+        {items === null || items.length <= 0 ? (
+          <p>
+            Oops! No products found. Try another search or explore our
+            categories for more options.
+          </p>
         ) : (
           <div id="card-container" className="">
             {items.map((item) => (

@@ -10,6 +10,7 @@ import settings from "../settings/state";
 import Home from "../components/Home";
 import AboutUs from "../components/AboutUs";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Homepage = () => {
   const { state, userInfo } = settings;
@@ -27,8 +28,8 @@ const Homepage = () => {
 
   return (
     <>
-      <Navbar />
       <Home />
+      <Footer />
     </>
   );
 };

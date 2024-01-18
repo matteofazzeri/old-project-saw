@@ -20,6 +20,8 @@ const Store = () => {
   const params = new URLSearchParams(location.search);
   const category = params.get("categories");
   const search = params.get("search");
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000); // Abort the request after 5000 milliseconds
   const fetchData = async () => {
     try {
       if (category && search) {
@@ -27,7 +29,7 @@ const Store = () => {
 
         await fetch(
           `${serverURL.development.backendUrl}/shop?categories=${category}&search=${search}`,
-          { method: "GET" }
+          { method: "GET", signal: controller.signal }
         )
           .then((res) => res.json())
           .then((data) => {
@@ -39,6 +41,9 @@ const Store = () => {
             setLoading(false);
             setError(true);
             console.log(err);
+          })
+          .finally(() => {
+            clearTimeout(timeoutId);
           });
       }
     } catch (error) {
@@ -59,15 +64,14 @@ const Store = () => {
       <section className="w-full h-fit pt-20 md:pt-24 text-white">
         {loading ? (
           <Loader />
-          
         ) : !loading && !error ? ( // ! to invert the condition
           <div className="">
             {console.log(loading, " - ", error)}
             <div id="card-container" className="">
-            {items.map((item) => (
-              <Card key={item.id} item={item} />
-            ))}
-          </div>
+              {items.map((item) => (
+                <Card key={item.id} item={item} />
+              ))}
+            </div>
           </div>
         ) : (
           <p>

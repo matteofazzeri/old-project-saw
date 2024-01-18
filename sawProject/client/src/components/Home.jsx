@@ -31,7 +31,7 @@ const Home = () => {
     <section id="home" className="h-screen w-screen">
       {/* check if snap.loggedIn is true or false from localstorage */}
 
-      <div className="text-white w-[95%] mx-auto pt-20 sm:pt-28 md:pt-48">
+      <div className="text-white w-[95%] mx-auto pt-20 sm:pt-22 md:pt-24">
         <motion.h1
           className="uppercase text-4xl sm:text-7xl md:text-8xl xl:text-9xl font-[Nasastyle]"
           animate={{ x: [null, 10, 0] }}

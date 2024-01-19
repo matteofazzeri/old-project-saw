@@ -109,7 +109,7 @@ CREATE TABLE
   spacesuits (
     product_id INT PRIMARY KEY,
     material VARCHAR(50),
-    FOREIGN KEY (product_id) REFERENCES products (id) FOREIGN KEY (size_id) REFERENCES product_sizes (id)
+    FOREIGN KEY (product_id) REFERENCES products (id)
   );
 
 CREATE TABLE
@@ -127,7 +127,7 @@ CREATE TABLE
     size_id INT,
     PRIMARY KEY (spacesuit_id, size_id),
     FOREIGN KEY (spacesuit_id) REFERENCES spacesuits (product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (size_id) REFERENCES spacesuit_sizes (id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (size_id) REFERENCES product_sizes (id) ON DELETE CASCADE ON UPDATE CASCADE
   );
 
 -- ! END OF SPACESUIT TABLES
@@ -217,10 +217,7 @@ CREATE TABLE
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     product_id INT,
-    rating INT CHECK (
-      rating >= 1
-      AND rating <= 5
-    ) NOT NULL,
+    rating ENUM ('1', '2', '3', '4', '5') NOT NULL,
     comment TEXT,
     review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
@@ -272,7 +269,7 @@ CREATE TABLE
     quantity INT DEFAULT 1,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (product_id) REFERENCES products (id)
   );
 
 CREATE TABLE

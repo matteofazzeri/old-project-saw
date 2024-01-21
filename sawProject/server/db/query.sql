@@ -270,6 +270,7 @@ CREATE TABLE
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (product_id) REFERENCES products (id)
+    UNIQUE (user_id, product_id) -- ! prevent duplicate entries (just have to change quantity value)  
   );
 
 CREATE TABLE

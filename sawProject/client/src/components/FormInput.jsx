@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const FormInput = ({
   labelText,
-  labelClass,
+  classValue,
   id,
   name,
   type,
@@ -13,8 +13,8 @@ const FormInput = ({
   errorClass,
 }) => {
   return (
-    <InputWrapper className="flex flex-col">
-      <label htmlFor={id} className={labelClass}>
+    <InputWrapper className={`flex flex-col ` + classValue}>
+      <label htmlFor={id}>
         {labelText}
       </label>
       <input
@@ -23,6 +23,7 @@ const FormInput = ({
         type={type}
         onChange={whenChange}
         value={value}
+        className="text-gray-600"
       />
       <p className={errorClass}>{errorText}</p>
     </InputWrapper>
@@ -34,11 +35,12 @@ export default FormInput;
 const InputWrapper = styled.div`
   margin-top: 0.5rem;
   width: 300px;
+  display: flex;
+  flex-direction: column;
 
   label {
     font-size: 1rem;
     font-weight: 500;
-    color: white;
   }
 
   input {

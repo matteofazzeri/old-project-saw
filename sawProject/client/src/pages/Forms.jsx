@@ -27,12 +27,12 @@ const Forms = () => {
       name: Yup.string()
         .min(3, "Must be 3 characters or more")
         .max(15, "Must be 15 characters or less")
-        .required(""),
-      email: Yup.string().email("Invalid email address").required(""),
+        .required("Name is required"),
+      email: Yup.string().email("Invalid email address").required("Email address is required"),
       username: Yup.string()
         .min(3, "Must be 3 characters or more")
         .max(15, "Must be 15 characters or less")
-        .required(""),
+        .required("username is required"),
       password: Yup.string()
         .min(8, "Must be 8 characters or more")
         .max(20, "Must be 20 characters or less")
@@ -47,16 +47,18 @@ const Forms = () => {
           /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
           "Password must contain at least 8 characters, one uppercase, one number and one special case character"
         )
-        .required(""),
+        .required("Password is required"),
 
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required(""),
+        .required("Please confirm your password"),
     }),
 
     onSubmit: (values) => {
+
       // need to make a json object
       let inputData = JSON.stringify(values, null, 2);
+      console.log(inputData);
       /* alert(inputData); */
       let info = {
         method: "POST",
@@ -92,6 +94,19 @@ const Forms = () => {
     },
   });
 
+  const renderFormInput = (label, id, name, type) => (
+    <FormInput
+      labelText={label}
+      id={id}
+      name={name}
+      type={type}
+      whenChange={formik.handleChange}
+      value={formik.values[name]}
+      errorClass={formik.errors[name] ? "" : "hidden"}
+      errorText={formik.errors[name]}
+    />
+  );
+
   return (
     <>
       {/* need to make some condition to see if the user already logged or not */}
@@ -99,57 +114,16 @@ const Forms = () => {
         <FormWrapper>
           <form onSubmit={formik.handleSubmit}>
             <h1>Register</h1>
-            <FormInput
-              labelText="First Name:"
-              id={"name"}
-              name={"name"}
-              type={"text"}
-              whenChange={formik.handleChange}
-              value={formik.values.name}
-              errorClass={formik.errors.name ? "" : "hidden"}
-              errorText={formik.errors.name}
-            />
-            <FormInput
-              labelText="Email:"
-              id={"email"}
-              name={"email"}
-              type={"email"}
-              whenChange={formik.handleChange}
-              value={formik.values.email}
-              errorClass={formik.errors.email ? "" : "hidden"}
-              errorText={formik.errors.email}
-            />
-            <FormInput
-              labelText="Username:"
-              id={"username"}
-              name={"username"}
-              type={"text"}
-              whenChange={formik.handleChange}
-              value={formik.values.username}
-              errorClass={formik.errors.username ? "" : "hidden"}
-              errorText={formik.errors.username}
-            />
-            <FormInput
-              labelText="Password:"
-              id={"password"}
-              name={"password"}
-              type={"password"}
-              whenChange={formik.handleChange}
-              value={formik.values.password}
-              errorClass={formik.errors.password ? "" : "hidden"}
-              errorText={formik.errors.password}
-            />
-            <FormInput
-              labelText="Confirm Password:"
-              id={"confirmPassword"}
-              name={"confirmPassword"}
-              type={"password"}
-              whenChange={formik.handleChange}
-              value={formik.values.confirmPassword}
-              errorClass={formik.errors.confirmPassword ? "" : "hidden"}
-              errorText={formik.errors.confirmPassword}
-            />
-
+            {renderFormInput("Name", "name", "name", "text")}
+            {renderFormInput("Email", "email", "email", "email")}
+            {renderFormInput("Username", "username", "username", "text")}
+            {renderFormInput("Password", "password", "password", "password")}
+            {renderFormInput(
+              "Confirm Password",
+              "confirmPassword",
+              "confirmPassword",
+              "password"
+            )}
             <CustomButton
               title={"submit"}
               type={"submit"}

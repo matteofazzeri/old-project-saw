@@ -11,13 +11,14 @@ function getElem($query_code, $data = [])
       $stmt->bindParam(':' . $key, $value);
 
     $stmt->execute();
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    /* while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       array_push($result, $row);
-    }
+    } */
 
     $pdo = null;
     $stmt = null;
-
 
     //echo json_encode($result, JSON_PRETTY_PRINT);
     return $result;

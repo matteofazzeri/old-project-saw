@@ -11,7 +11,10 @@ echo json_encode(
             FROM products LEFT JOIN spaceships ON products.id = spaceships.product_id 
             LEFT JOIN product_sizes ON spaceships.size = product_sizes.id
             LEFT JOIN reviews ON products.id = reviews.product_id
-            WHERE products.name = :name;',
-        ['name' => $serchItem]
+            WHERE LOWER(products.name) LIKE LOWER(:name)
+            GROUP BY products.id;',
+        ['name' => $serchItem .'%']
     )
 );
+
+exit();

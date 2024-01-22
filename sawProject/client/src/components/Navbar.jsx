@@ -1,14 +1,13 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSnapshot } from "valtio";
+import { IoMenu, IoHome, IoCart, IoPerson } from "react-icons/io5";
 
 import settings from "../settings/state";
 
 const Navbar = () => {
   let { isOpen, setIsOpen } = useState(false);
-  const [search, setSearch] = useState(
-    sessionStorage.getItem("searchElem") || ""
-  );
+  const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
   const { state, userInfo } = settings;
@@ -74,9 +73,9 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="h-fit w-screen z-50 box-border bg-slate-700">
-        <nav className="w-[99%] mx-auto">
-          <ul className="flex items-center justify-around py-1 text-white">
+      <header className="fixed top-0 left-0 h-fit w-screen z-50 box-border bg-slate-700">
+        <nav className="w-full mx-auto">
+          <ul className="w-full flex items-center justify-around py-1 text-white">
             <li className="hidden md:block max-w-[7%]">
               <Link to="/">
                 <img className="w-full" src="startSAW.png" alt="Logo" />
@@ -168,17 +167,27 @@ const Navbar = () => {
               maybe fare in modo che l'utente possa sceglierlo
               TODO: fare in modo che richiami alla pagina di modifica dell'indirizzo di spedizione
             */}
-            <li id="menu" onClick={setIsOpen}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="35"
-                viewBox="0 -960 960 960"
-                width="35"
-                fill="white"
-                className="flex md:hidden fixed bottom-2 right-2"
-              >
-                <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
-              </svg>
+            <li id="mobile-bar" className="flex md:hidden">
+              <ul className="fixed bottom-0 left-0 flex justify-between w-screen p-2 bg-[#042247]">
+                <li id="shop">
+                  <a href="/shop">
+                    <IoHome size={"2rem"} />
+                  </a>
+                </li>
+                <li id="profile">
+                  <a href="/profile">
+                    <IoPerson size={"2rem"}/>
+                  </a>
+                </li>
+                <li>
+                  <a href="/cart">
+                    <IoCart size={"2rem"} />
+                  </a>
+                </li>
+                <li id="menu" onClick={setIsOpen}>
+                  <IoMenu size={"2rem"} />
+                </li>
+              </ul>
             </li>
           </ul>
           {/* SIDEBAR */}
@@ -188,7 +197,10 @@ const Navbar = () => {
                         text-white align-middle justify-start py-6 backdrop-blur-sm"
           >
             <li className="w-full h-fit flex items-center align-middle justify-around flex-row border-b-[1px] pb-4 border-dotted">
-              <span className="w-fit flex items-center align-middle h-fit flex-col" onClick={setIsOpen}>
+              <span
+                className="w-fit flex items-center align-middle h-fit flex-col"
+                onClick={setIsOpen}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24"

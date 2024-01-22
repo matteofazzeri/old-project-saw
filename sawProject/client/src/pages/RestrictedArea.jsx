@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import serverURL from "../config/config";
 import CustomButton from "../components/CustomButton";
 import FormInput from "../components/FormInput";
 
@@ -10,6 +11,7 @@ const RestrictedArea = () => {
 
   const formik = useFormik({
     initialValues: {
+      product: "",
       // generic values for products
       name: "",
       image: "",
@@ -56,30 +58,38 @@ const RestrictedArea = () => {
             .required("Quantity is required")
             .positive("Quantity must be positive"),
         });
-      } else if (product === "spaceship") {
+      }
+      if (product === "spaceship") {
         schema = Yup.object({
           model: Yup.string()
             .min(3, "Must be 3 characters or more")
-            .max(30, "Must be 30 characters or less"),
-          //.required("Model name is required"),
+            .max(30, "Must be 30 characters or less")
+            .required("Model name is required"),
           fuel_type: Yup.string()
             .min(3, "Must be 3 characters or more")
-            .max(30, "Must be 30 characters or less"),
-          //.required("Fuel type is required"),
-          capacity: Yup.number().min(0, "Must be a positive number"),
-          //.required("Capacity is required"),
-          speed: Yup.number().min(0, "Must be a positive number"),
-          //.required("Speed is required"),
-          size: Yup.string().min(0, "Must be a positive number"),
-          //.required("Size is required"),
+            .max(30, "Must be 30 characters or less")
+            .required("Fuel type is required"),
+          capacity: Yup.number()
+            .min(0, "Must be a positive number")
+            .required("Capacity is required"),
+          speed: Yup.number()
+            .min(0, "Must be a positive number")
+            .required("Speed is required"),
+          size: Yup.string()
+            .min(0, "Must be a positive number")
+            .required("Size is required"),
         });
-      } else if (product === "spacesuit") {
+      }
+      if (product === "spacesuit") {
         schema = Yup.object({
           material: Yup.string()
             .min(3, "Must be 3 characters or more")
-            .max(30, "Must be 30 characters or less"),
-          //.required("Material is required"),
-          color: Yup.string(), //.required("Color is required"),
+            .max(30, "Must be 30 characters or less")
+            .required("Material is required"),
+          color: Yup.string().required("Color is required"),
+          size: Yup.string()
+            .min(0, "Must be a positive number")
+            .required("Size is required"),
         });
       }
 
@@ -87,7 +97,46 @@ const RestrictedArea = () => {
     },
 
     onSubmit: (values) => {
-      let inputData = JSON.stringify(values, null, 2);
+      // ! Delete all the empty values and then convert them into JSON objects
+
+      let inputData = JSON.stringify(
+        Object.fromEntries(
+          Object.entries(values).filter(([key, value]) => value !== "")
+        ),
+        null,
+        2
+      );
+
+      let info = {
+        method: "POST",
+        body: inputData,
+      };
+
+      fetch(
+        `${serverURL.development.backendUrl}/shop?categories=${product}`,
+        info
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          // Check if the response content type is JSON
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            return response.json();
+          } else {
+            // Handle non-JSON response (e.g., plain text or HTML)
+            return response.text();
+          }
+        })
+        .then((data) => {
+          console.log("Success:", data);
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error.message);
+        });
+
       console.log(inputData);
     },
   });
@@ -115,18 +164,18 @@ const RestrictedArea = () => {
   return (
     <section className="text-white">
       <h2>Admin Area</h2>
-      <select
-        name="product"
-        id="product"
-        onChange={handleSelectionProductChange}
-        defaultValue="spaceship"
-        className="text-black w-[200px] outline-none"
-      >
-        <option value="spaceship">Spaceship</option>
-        <option value="spacesuit">Spacesuit</option>
-        <option value="spacepart">Spacepart</option>
-      </select>
       <form onSubmit={formik.handleSubmit}>
+        <select
+          name="product"
+          id="product"
+          onChange={handleSelectionProductChange}
+          defaultValue="spaceship"
+          className="text-black w-[200px] outline-none"
+        >
+          <option value="spaceship">Spaceship</option>
+          <option value="spacesuit">Spacesuit</option>
+          <option value="spacepart">Spacepart</option>
+        </select>
         {product && (
           <>
             {/* {renderFormInput("Photo", "photo", "image", "file")} */}
@@ -149,12 +198,12 @@ const RestrictedArea = () => {
             {renderFormInput("Capacity", "capacity", "capacity", "text")}
             {renderFormInput("Speed", "speed", "speed", "text")}
             {renderFormInput("Size", "size", "size", "text")}
-            {renderFormInput("Color", "color", "color", "text")}
           </>
         ) : product === "spacesuit" ? (
           <>
             {renderFormInput("Material", "material", "material", "text")}
             {renderFormInput("Color", "color", "color", "text")}
+            {renderFormInput("Size", "size", "size", "text")}
           </>
         ) : (
           <></>

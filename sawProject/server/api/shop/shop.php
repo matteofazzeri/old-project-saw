@@ -9,10 +9,10 @@ $URL_lenght = $requestURL[count($requestURL) - 1];
 
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require __DIR__ . "/shop.item.php";
+    require __DIR__ . "/post.item.php";
 }
 else if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    require __DIR__ . "/shop.item.php";
+    require __DIR__ . "/get.item.php";
 }
 else if($_SERVER['REQUEST_METHOD'] === 'PUT') {
     require __DIR__ . "/put.php";

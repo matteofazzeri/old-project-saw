@@ -26,7 +26,7 @@ CREATE TABLE
     price DECIMAL(10, 2) NOT NULL,
     quantity INT DEFAULT 1,
     availability BOOLEAN NOT NULL,
-    item_sold INT NOT NULL,
+    item_sold INT NOT NULL DEFAULT 0, -- number of products sold
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );
@@ -269,7 +269,7 @@ CREATE TABLE
     quantity INT DEFAULT 1,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (product_id) REFERENCES products (id)
+    FOREIGN KEY (product_id) REFERENCES products (id),
     UNIQUE (user_id, product_id) -- ! prevent duplicate entries (just have to change quantity value)  
   );
 

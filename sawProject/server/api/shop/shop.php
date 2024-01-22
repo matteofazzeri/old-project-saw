@@ -10,6 +10,7 @@ $URL_lenght = $requestURL[count($requestURL) - 1];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     require __DIR__ . "/post.item.php";
+    exit();
 }
 else if($_SERVER['REQUEST_METHOD'] === 'GET') {
     require __DIR__ . "/get.item.php";

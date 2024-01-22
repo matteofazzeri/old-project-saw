@@ -20,14 +20,14 @@ function getElem($query_code, $data = [])
 
 
     echo json_encode($result, JSON_PRETTY_PRINT);
-    //echo json_encode($result, JSON_PRETTY_PRINT);
     return $result;
   } catch (PDOException $e) {
-    die("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
+    echo ("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
+    return false;
   }
 }
 
-function insertValue($query_code, $data = [])
+function insertValue($query_code, $data = [], $needIndex = false)
 {
   require __DIR__ . '/connect.inc.php';
 
@@ -39,12 +39,16 @@ function insertValue($query_code, $data = [])
       $stmt->bindParam(':' . $key, $value);
     $stmt->execute();
 
+    if ($needIndex)
+      $lastIndex = $pdo->lastInsertId();
+
     $pdo = null;
     $stmt = null;
-    return true;
+
+    return $needIndex === false ? true : $lastIndex;
   } catch (PDOException $e) {
-    //return false;
-    return("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
+    echo ("Query failed: " . $e->getMessage() . '<br/>' . $query_code);
+    return false;
   }
 }
 

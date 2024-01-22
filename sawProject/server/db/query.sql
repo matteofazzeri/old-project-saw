@@ -1,18 +1,8 @@
 -- ! SOME USEFULL TRIGGERS
-DELIMITER / / CREATE TRIGGER update_availability BEFORE
-UPDATE ON products FOR EACH ROW BEGIN IF NEW.quantity <= 0 THEN
+CREATE TRIGGER update_availability BEFORE
+UPDATE ON products FOR EACH ROW
 SET
-  NEW.availability = FALSE;
-
-ELSE
-SET
-  NEW.availability = TRUE;
-
-END IF;
-
-END;
-
-/ / DELIMITER;
+  NEW.availability = IF (NEW.quantity <= 0, FALSE, TRUE);
 
 -- ! END OF TRIGGERS
 /*
@@ -23,7 +13,7 @@ CREATE TABLE
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL CHECK (price >= 0),
     quantity INT DEFAULT 1,
     availability BOOLEAN NOT NULL,
     item_sold INT NOT NULL DEFAULT 0, -- number of products sold
@@ -32,13 +22,13 @@ CREATE TABLE
   );
 
 CREATE TABLE
-  colors (
+  product_colors (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL
   );
 
 INSERT INTO
-  colors (name)
+  product_colors (name)
 VALUES
   ('Red'),
   ('Blue'),
@@ -48,7 +38,7 @@ VALUES
   ('White');
 
 CREATE TABLE
-  photos (
+  product_photos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT,
     image BLOB,
@@ -100,7 +90,7 @@ CREATE TABLE
     color_id INT,
     PRIMARY KEY (spaceship_id, color_id),
     FOREIGN KEY (spaceship_id) REFERENCES spaceships (product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (color_id) REFERENCES colors (id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (color_id) REFERENCES product_colors (id) ON DELETE CASCADE ON UPDATE CASCADE
   );
 
 -- ! END OF SPACESHIP TABLES
@@ -118,7 +108,7 @@ CREATE TABLE
     color_id INT,
     PRIMARY KEY (spacesuit_id, color_id),
     FOREIGN KEY (spacesuit_id) REFERENCES spacesuits (product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (color_id) REFERENCES colors (id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (color_id) REFERENCES product_colors (id) ON DELETE CASCADE ON UPDATE CASCADE
   );
 
 CREATE TABLE

@@ -7,7 +7,7 @@ import CustomButton from "../components/CustomButton";
 import FormInput from "../components/FormInput";
 
 const RestrictedArea = () => {
-  const [product, setProduct] = useState("spaceship");
+  const [product, setProduct] = useState("spaceships");
 
   const formik = useFormik({
     initialValues: {
@@ -59,7 +59,7 @@ const RestrictedArea = () => {
             .positive("Quantity must be positive"),
         });
       }
-      if (product === "spaceship") {
+      if (product === "spaceships") {
         schema = Yup.object({
           model: Yup.string()
             .min(3, "Must be 3 characters or more")
@@ -80,7 +80,7 @@ const RestrictedArea = () => {
             .required("Size is required"),
         });
       }
-      if (product === "spacesuit") {
+      if (product === "spacesuits") {
         schema = Yup.object({
           material: Yup.string()
             .min(3, "Must be 3 characters or more")
@@ -172,9 +172,9 @@ const RestrictedArea = () => {
           defaultValue="spaceship"
           className="text-black w-[200px] outline-none"
         >
-          <option value="spaceship">Spaceship</option>
-          <option value="spacesuit">Spacesuit</option>
-          <option value="spacepart">Spacepart</option>
+          <option value="spaceships">Spaceship</option>
+          <option value="spacesuits">Spacesuit</option>
+          <option value="space_parts">Spacepart</option>
         </select>
         {product && (
           <>
@@ -191,7 +191,7 @@ const RestrictedArea = () => {
             {renderFormInput("Quantity", "quantity", "quantity", "text")}
           </>
         )}
-        {product === "spaceship" ? (
+        {product === "spaceships" ? (
           <>
             {renderFormInput("Model", "model", "model", "text")}
             {renderFormInput("Fuel Type", "fuel_type", "fuel_type", "text")}
@@ -199,7 +199,7 @@ const RestrictedArea = () => {
             {renderFormInput("Speed", "speed", "speed", "text")}
             {renderFormInput("Size", "size", "size", "text")}
           </>
-        ) : product === "spacesuit" ? (
+        ) : product === "spacesuits" ? (
           <>
             {renderFormInput("Material", "material", "material", "text")}
             {renderFormInput("Color", "color", "color", "text")}

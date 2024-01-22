@@ -11,6 +11,7 @@ import Home from "../components/Home";
 import AboutUs from "../components/AboutUs";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import RateProductStars from "../components/RateProductStars";
 
 const Homepage = () => {
   const { state, userInfo } = settings;
@@ -27,9 +28,10 @@ const Homepage = () => {
 
 
   return (
-    <>
+    <>{/* 
       <Home />
-      <Footer />
+      <Footer /> */}
+      <RateProductStars />
     </>
   );
 };

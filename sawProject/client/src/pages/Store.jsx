@@ -54,28 +54,26 @@ const Store = () => {
   useEffect(() => {
     fetchData();
 
-    console.log("Categories:", category);
-    console.log("Search:", search);
+    /* console.log("Categories:", category);
+    console.log("Search:", search); */
   }, []);
 
   return (
     <>
       <Navbar />
-      <section className="w-full h-fit pt-20 md:pt-24 text-white">
+      <section className="w-full h-fit pt-4 md:pt-8 text-white">
         {loading ? (
           <Loader />
         ) : !loading && !error ? ( // ! to invert the condition
-          <div className="">
-            {console.log(loading, " - ", error)}
-            <div id="card-container" className="">
+          <div className="w-[90%] min-h-[85vh] m-auto bg-white">
+            <div id="card-container" className="p-1 grid grid-cols-4 gap-4">
               {items.map((item) => (
-                <Card key={item.id} item={item} />
+                <Card key={item.id} data={item} />
               ))}
             </div>
           </div>
         ) : (
           <p>
-            {console.log(loading, " - ", error)}
             Oops! No products found. Try another search or explore our
             categories for more options.
           </p>

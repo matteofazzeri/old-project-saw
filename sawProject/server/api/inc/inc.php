@@ -19,7 +19,7 @@ function getElem($query_code, $data = [])
     $stmt = null;
 
 
-    echo json_encode($result, JSON_PRETTY_PRINT);
+    //echo json_encode($result, JSON_PRETTY_PRINT);
     return $result;
   } catch (PDOException $e) {
     echo ("Query failed: " . $e->getMessage() . '<br/>' . $query_code);

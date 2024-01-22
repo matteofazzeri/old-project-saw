@@ -41,7 +41,7 @@ const Navbar = () => {
     // check if search bar has something to be searched
     if (!(search === "" || search === undefined)) {
       const attribute = `categories=${category}&search=${search}`;
-      console.log(attribute);
+      //console.log(attribute);
       window.location.href = `/shop?${attribute}`;
     }
   };

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // ! https://codepen.io/aurer/pen/ZEJxpO possibili loader svg
-function Loader() {
+export function Loader() {
   return (
     <>
       <Loading className="loader">
@@ -103,7 +103,41 @@ function Loader() {
   );
 }
 
-export default Loader;
+export function CircularLoader (values) {
+  return (
+    <Loading>
+      <div>
+        <svg
+          version="1.1"
+          id="loader-1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          width={values.size || "22px"}
+          height={values.size || "22px"}
+          viewBox="0 0 50 50"
+          xmlSpace="preserve"
+        >
+          <path
+            fill={values.color || "#32a852"}
+            d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z"
+          >
+            <animateTransform
+              attributeType="xml"
+              attributeName="transform"
+              type="rotate"
+              from="0 25 25"
+              to="360 25 25"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+          </path>
+        </svg>
+      </div>
+    </Loading>
+  );
+};
 
 const Loading = styled.div`
   .loader {
@@ -115,13 +149,5 @@ const Loading = styled.div`
     margin: 0 auto 1em;
     display: inline-block;
     vertical-align: top;
-  }
-
-  /*
-  Set the color of the icon
-*/
-  svg path,
-  svg rect {
-    fill: #fff;
   }
 `;

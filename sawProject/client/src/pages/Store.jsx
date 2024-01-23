@@ -7,7 +7,8 @@ import serverURL from "../config/config";
 // components
 import Navbar from "../components/Navbar";
 import Card from "../components/Card";
-import Loader from "../components/Loader";
+import Footer from "../components/Footer";
+import {Loader} from "../components/Loader";
 
 const Store = () => {
   // setup for loading animations
@@ -65,10 +66,10 @@ const Store = () => {
   return (
     <>
       <Navbar />
-      <section className="w-full h-fit pt-4 md:pt-8 text-white">
+      <section className="w-full h-fit pt-4 mb-10 md:pt-12 text-white">
         <div
           id="card-container"
-          className="w-full md:w-[90%] min-h-[85vh] m-auto flex flex-wrap gap-4 mt-10 md:mt-8 xl:mt-12 2xl:mt-16 bg-white p-1"
+          className="w-full md:w-[90%] min-h-[85vh] m-auto flex flex-col md:flex-row md:flex-wrap gap-4 mt-10 md:mt-8 xl:mt-12 2xl:mt-16 bg-white p-1"
         >
           {loading ? (
             <Loader />
@@ -86,6 +87,7 @@ const Store = () => {
           )}
         </div>
       </section>
+      <Footer />
     </>
   );
 };

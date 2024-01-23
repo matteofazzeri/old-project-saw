@@ -2,11 +2,13 @@ import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSnapshot } from "valtio";
 import { IoMenu, IoHome, IoCart, IoPerson } from "react-icons/io5";
+import { BiCartDownload } from "react-icons/bi";
 
 import settings from "../settings/state";
 
 const Navbar = () => {
   let { isOpen, setIsOpen } = useState(false);
+  const [numItems, setNumItems] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
@@ -176,12 +178,23 @@ const Navbar = () => {
                 </li>
                 <li id="profile">
                   <a href="/profile">
-                    <IoPerson size={"2rem"}/>
+                    <IoPerson size={"2rem"} />
                   </a>
                 </li>
-                <li>
+                <li id="cart-show">
                   <a href="/cart">
-                    <IoCart size={"2rem"} />
+                    <div className="relative bg-teal-300">
+                      <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-inherit"></div>
+                      <p
+                        id="num-item-cart"
+                        className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-black font-bold text-sm bg-none py-0 px-[3px]"
+                      >
+                        0{/* {numItems ? numItems : null} */}
+                      </p>
+                      {/* <IoCart size={"2rem"} /> */}
+
+                      <BiCartDownload size={"2rem"} />
+                    </div>
                   </a>
                 </li>
                 <li id="menu" onClick={setIsOpen}>

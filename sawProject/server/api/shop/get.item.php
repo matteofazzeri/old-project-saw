@@ -2,19 +2,56 @@
 
 require __DIR__ . '/../inc/inc.php';
 
-//$category = $_GET['categories'];
+$categories = $_GET['categories'];
 $serchItem = $_GET['search'];
 
-echo json_encode(
-    getElem('SELECT products.*, spaceships.*, product_sizes.size_name, 
-            AVG(COALESCE(reviews.rating, 0)) AS average_rating 
-            FROM products LEFT JOIN spaceships ON products.id = spaceships.product_id 
-            LEFT JOIN product_sizes ON spaceships.size = product_sizes.id
-            LEFT JOIN reviews ON products.id = reviews.product_id
-            WHERE LOWER(products.name) LIKE LOWER(:name)
-            GROUP BY products.id;',
-        ['name' => $serchItem .'%']
-    )
-);
+switch ($categories) {
+    case 'spaceship':
+        echo json_encode(
+            getElem('SELECT * FROM spaceships_detail_view
+                    WHERE LOWER(product_name) LIKE LOWER(:name)',
+                ['name' => $serchItem . '%']
+            )
+        );
+        break;
+
+    case 'spacesuit':
+        echo json_encode(
+            getElem('SELECT * FROM spacesuits_detail_view
+                    WHERE LOWER(product_name) LIKE LOWER(:name)',
+                ['name' => $serchItem . '%']
+            )
+        );
+        break;
+
+    case 'spacepart':
+        echo json_encode(
+            getElem('SELECT * FROM spaceparts_detail_view
+                    WHERE LOWER(product_name) LIKE LOWER(:name)',
+                ['name' => $serchItem . '%']
+            )
+        );
+        break;
+
+    default:
+
+        $res = getElem('SELECT * FROM spaceships_detail_view
+                WHERE LOWER(product_name) LIKE LOWER(:name)',
+            ['name' => $serchItem . '%']
+        );
+
+        $res = array_merge(
+            $res,
+            getElem('SELECT * FROM spacesuits_detail_view
+                WHERE LOWER(product_name) LIKE LOWER(:name)',
+                ['name' => $serchItem . '%']
+            )
+        );
+
+        echo json_encode($res);
+        break;
+}
+
+
 
 exit();

@@ -5,6 +5,7 @@ import { IoMenu, IoHome, IoCart, IoPerson } from "react-icons/io5";
 import { BiCartDownload } from "react-icons/bi";
 
 import settings from "../settings/state";
+import { CircularLoader } from "./Loader";
 
 const Navbar = () => {
   let { isOpen, setIsOpen } = useState(false);
@@ -53,25 +54,29 @@ const Navbar = () => {
     method: "GET",
   };
 
-  // fetch where the user is if not logged
-  if (snapUser.loggedIn) {
-    document.getElementById("location").innerHTML = `${
-      "Send to" + snapUser.name + snapUser.address
-    }`;
-  } else {
-    fetch(
-      "https://api.geoapify.com/v1/ipinfo?&apiKey=fa4633f6309745f39484e1343fb0d8cf",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        //console.log(result);
-        document.getElementById("location").innerHTML = `${
-          "Sending to " + result.city.name
-        }`;
-      })
-      .catch((error) => console.log("error", error));
-  }
+  const shippingAddress = () => {
+    // fetch where the user is if not logged
+    if (snapUser.loggedIn) {
+      document.getElementById("location").innerHTML = `${
+        "Send to" + snapUser.name + snapUser.address
+      }`;
+    } else {
+      fetch(
+        "https://api.geoapify.com/v1/ipinfo?&apiKey=fa4633f6309745f39484e1343fb0d8cf",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          //console.log(result);
+          document.getElementById("location").innerHTML = `${
+            "Sending to " + result.city.name
+          }`;
+        })
+        .catch((error) => console.log("error", error));
+    }
+  };
+
+  shippingAddress();
 
   return (
     <>
@@ -85,12 +90,12 @@ const Navbar = () => {
             </li>
             <li className="hidden md:block w-[fit] cursor-pointer ">
               {false || (
-                <p
+                <div
                   id="location"
                   className="border-[1px] border-transparent hover:border-[1px] hover:border-white text-sm w-max mx-3"
                 >
-                  Location: Loading...
-                </p>
+                  <CircularLoader />
+                </div>
               )}
             </li>
             <li id="searchBar" className="h-[40px] w-full">
@@ -108,7 +113,9 @@ const Navbar = () => {
                   onChange={handleCategoryChange}
                 >
                   <option value="all">All</option>
-                  <option value="raceship">Race Spaceship</option>
+                  <option value="spaceship">Spaceships</option>
+                  <option value="spacesuit">Spacesuits</option>
+                  <option value="spacepart">Spaceparts</option>
                 </select>
                 <input
                   type="search"

@@ -27,16 +27,6 @@ CREATE TABLE
     name VARCHAR(50) NOT NULL
   );
 
-INSERT INTO
-  product_colors (name)
-VALUES
-  ('Red'),
-  ('Blue'),
-  ('Green'),
-  ('Yellow'),
-  ('Black'),
-  ('White');
-
 CREATE TABLE
   colors_mapping (
     product_id INT,
@@ -61,18 +51,6 @@ CREATE TABLE
     size_name VARCHAR(20) NOT NULL UNIQUE
   );
 
--- * insert for the size table 
-INSERT INTO
-  product_sizes (size_name)
-VALUES
-  ('XXS'),
-  ('XS'),
-  ('S'),
-  ('M'),
-  ('L'),
-  ('XL'),
-  ('XXL'),
-  ('XXXL');
 
 CREATE TABLE
   sizes_mapping (
@@ -198,13 +176,14 @@ CREATE TABLE
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     product_id INT,
-    rating ENUM ('1', '2', '3', '4', '5') NOT NULL,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (product_id) REFERENCES products (id),
     UNIQUE (user_id, product_id)
   );
+
 
 -- ! facoltive
 CREATE TABLE
@@ -318,3 +297,223 @@ CREATE TABLE
     session_action VARCHAR(50) NOT NULL, -- 'Login', 'Logout', etc.
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+
+
+CREATE VIEW spacesuits_detail_view AS
+SELECT
+    p.id AS product_id,
+    p.name AS product_name,
+    p.description AS product_description,
+    p.price AS product_price,
+    p.quantity AS product_quantity,
+    p.availability AS product_availability,
+    p.item_sold AS products_sold,
+    pc.name AS color_name,
+    pp.image AS product_image,
+    ps.size_name AS size_name,
+    ss.material AS spacesuit_material,
+    AVG(r.rating) AS product_rating,
+    p.created_at AS product_created_at,
+    p.updated_at AS product_updated_at
+FROM
+    products p
+LEFT JOIN colors_mapping cm ON p.id = cm.product_id
+LEFT JOIN product_colors pc ON cm.color_id = pc.id
+LEFT JOIN product_photos pp ON p.id = pp.product_id
+LEFT JOIN sizes_mapping sm ON p.id = sm.product_id
+LEFT JOIN product_sizes ps ON sm.size_id = ps.id
+LEFT JOIN reviews r ON p.id = r.product_id
+RIGHT JOIN spacesuits ss ON p.id = ss.product_id
+GROUP BY p.id;
+
+CREATE VIEW spaceships_detail_view AS
+SELECT
+    p.id AS product_id,
+    p.name AS product_name,
+    p.description AS product_description,
+    p.price AS product_price,
+    p.quantity AS product_quantity,
+    p.availability AS product_availability,
+    p.item_sold AS products_sold,
+    pc.name AS color_name,
+    pp.image AS product_image,
+    ps.size_name AS size_name,
+    s.fuel_type AS spaceship_fuel_type,
+    s.capacity AS spaceship_capacity,
+    s.speed AS spaceship_speed,
+    s.model AS spaceship_model,
+    s.size AS spaceship_size,
+    AVG(r.rating) AS product_rating,
+    p.created_at AS product_created_at,
+    p.updated_at AS product_updated_at
+FROM
+    products p
+LEFT JOIN colors_mapping cm ON p.id = cm.product_id
+LEFT JOIN product_colors pc ON cm.color_id = pc.id
+LEFT JOIN product_photos pp ON p.id = pp.product_id
+LEFT JOIN sizes_mapping sm ON p.id = sm.product_id
+LEFT JOIN product_sizes ps ON sm.size_id = ps.id
+LEFT JOIN reviews r ON p.id = r.product_id
+RIGHT JOIN spaceships s ON p.id = s.product_id
+GROUP BY p.id;
+
+
+
+/*
+  * INSERTO FOR THE TABLES
+*/
+
+INSERT INTO
+  product_colors (name)
+VALUES
+  ('Red'),
+  ('Blue'),
+  ('Green'),
+  ('Yellow'),
+  ('Black'),
+  ('White');
+
+INSERT INTO
+  product_sizes (size_name)
+VALUES
+  ('XXS'),
+  ('XS'),
+  ('S'),
+  ('M'),
+  ('L'),
+  ('XL'),
+  ('XXL'),
+  ('XXXL');
+
+
+-- ! SPACESUITS INSERTS
+
+
+  -- Insert into products table
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Test Spacesuit Product', 'Description for the test spacesuit product', 39.99, 15, true, 0);
+
+-- Retrieve the ID of the newly inserted product
+SET @new_product_id = LAST_INSERT_ID();
+
+-- Insert into colors_mapping table
+INSERT INTO colors_mapping (product_id, color_id)
+VALUES (@new_product_id, 3); -- Assuming color_id 3 exists in product_colors table
+
+-- Insert into sizes_mapping table
+INSERT INTO sizes_mapping (product_id, size_id)
+VALUES (@new_product_id, 3); -- Assuming size_id 3 exists in product_sizes table
+
+-- Insert into spacesuits table
+INSERT INTO spacesuits (product_id, material)
+VALUES (@new_product_id, 'Advanced Polymer');
+
+-- Insert into products table
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Spacesuit Product A', 'Description for Spacesuit Product A', 49.99, 10, true, 0);
+
+-- Retrieve the ID of the newly inserted product
+SET @new_product_id = LAST_INSERT_ID();
+
+-- Insert into colors_mapping table
+INSERT INTO colors_mapping (product_id, color_id)
+VALUES (@new_product_id, 1); -- Assuming color_id 1 exists in product_colors table
+
+-- Insert into sizes_mapping table
+INSERT INTO sizes_mapping (product_id, size_id)
+VALUES (@new_product_id, 2); -- Assuming size_id 2 exists in product_sizes table
+
+-- Insert into spacesuits table
+INSERT INTO spacesuits (product_id, material)
+VALUES (@new_product_id, 'Nano Fiber');
+
+-- Repeat the above structure for the next 8 spacesuit products (Product B to Product J)
+
+-- Product B
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Spacesuit Product B', 'Description for Spacesuit Product B', 59.99, 15, true, 0);
+SET @new_product_id = LAST_INSERT_ID();
+INSERT INTO colors_mapping (product_id, color_id) VALUES (@new_product_id, 2);
+INSERT INTO sizes_mapping (product_id, size_id) VALUES (@new_product_id, 1);
+INSERT INTO spacesuits (product_id, material) VALUES (@new_product_id, 'Advanced Fabric');
+
+-- Continue the pattern for Spacesuit Products C to J
+
+-- Product C
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Spacesuit Product C', 'Description for Spacesuit Product C', 69.99, 20, true, 0);
+SET @new_product_id = LAST_INSERT_ID();
+INSERT INTO colors_mapping (product_id, color_id) VALUES (@new_product_id, 3);
+INSERT INTO sizes_mapping (product_id, size_id) VALUES (@new_product_id, 3);
+INSERT INTO spacesuits (product_id, material) VALUES (@new_product_id, 'Carbon Fiber');
+
+-- ... Repeat for Spacesuit Products D to J
+
+
+
+-- ! SPACESHIP INSERTS
+
+
+
+-- Insert into products table
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Test Spaceship Product', 'Description for the test product', 29.99, 20, true, 0);
+
+-- Retrieve the ID of the newly inserted product
+SET @new_product_id = LAST_INSERT_ID();
+
+-- Insert into colors_mapping table
+INSERT INTO colors_mapping (product_id, color_id)
+VALUES (@new_product_id, 2); -- Assuming color_id 2 exists in product_colors table
+
+-- Insert into sizes_mapping table
+INSERT INTO sizes_mapping (product_id, size_id)
+VALUES (@new_product_id, 2); -- Assuming size_id 2 exists in product_sizes table
+
+-- Insert into spaceships table
+INSERT INTO spaceships (product_id, fuel_type, capacity, speed, model, size)
+VALUES (@new_product_id, 'Hyper Fuel', 150, 3000, 'Test Model', 'Medium');
+
+-- Insert into products table
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Product A', 'Description for Product A', 19.99, 15, true, 0);
+
+-- Retrieve the ID of the newly inserted product
+SET @new_product_id = LAST_INSERT_ID();
+
+-- Insert into colors_mapping table
+INSERT INTO colors_mapping (product_id, color_id)
+VALUES (@new_product_id, 1); -- Assuming color_id 1 exists in product_colors table
+
+-- Insert into sizes_mapping table
+INSERT INTO sizes_mapping (product_id, size_id)
+VALUES (@new_product_id, 1); -- Assuming size_id 1 exists in product_sizes table
+
+-- Insert into spaceships table
+INSERT INTO spaceships (product_id, fuel_type, capacity, speed, model, size)
+VALUES (@new_product_id, 'Standard Fuel', 100, 2000, 'Model A', 'Small');
+
+
+-- Repeat the above structure for the next 8 products (Product B to Product J)
+
+-- Product B
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Product B', 'Description for Product B', 24.99, 10, true, 0);
+SET @new_product_id = LAST_INSERT_ID();
+INSERT INTO colors_mapping (product_id, color_id) VALUES (@new_product_id, 3);
+INSERT INTO sizes_mapping (product_id, size_id) VALUES (@new_product_id, 2);
+INSERT INTO spaceships (product_id, fuel_type, capacity, speed, model, size)
+VALUES (@new_product_id, 'Advanced Fuel', 120, 2500, 'Model B', 'Medium');
+
+-- Continue the pattern for Products C to J
+
+-- Product C
+INSERT INTO products (name, description, price, quantity, availability, item_sold)
+VALUES ('Product C', 'Description for Product C', 29.99, 20, true, 0);
+SET @new_product_id = LAST_INSERT_ID();
+INSERT INTO colors_mapping (product_id, color_id) VALUES (@new_product_id, 2);
+INSERT INTO sizes_mapping (product_id, size_id) VALUES (@new_product_id, 1);
+INSERT INTO spaceships (product_id, fuel_type, capacity, speed, model, size)
+VALUES (@new_product_id, 'Hyper Fuel', 150, 3000, 'Model C', 'Large');
+
+-- ... Repeat for Products D to J

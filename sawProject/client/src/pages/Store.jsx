@@ -8,7 +8,7 @@ import serverURL from "../config/config";
 import Navbar from "../components/Navbar";
 import Card from "../components/Card";
 import Footer from "../components/Footer";
-import {Loader} from "../components/Loader";
+import { Loader } from "../components/Loader";
 
 const Store = () => {
   // setup for loading animations
@@ -37,13 +37,13 @@ const Store = () => {
           .then((data) => {
             setItems(data);
             setLoading(false);
-            //console.log(data);
+            console.log(data);
             data.length === 0 ? setError(true) : setError(false);
           })
           .catch((err) => {
             setLoading(false);
             setError(true);
-            //console.log(err);
+            console.log(err);
           })
           .finally(() => {
             clearTimeout(timeoutId);
@@ -76,7 +76,7 @@ const Store = () => {
           ) : !loading && !error ? ( // ! to invert the condition
             <>
               {items.map((item) => (
-                <Card key={item.id} data={item} />
+                <Card key={item.product_id} data={item} />
               ))}
             </>
           ) : (

@@ -19,7 +19,7 @@ const Card = ({ id, data }) => {
 
   const handleOpenItem = () => {
     // open the item page
-    console.log("open: ", data["id"]);
+    console.log("open: ", data["product_id"]);
   };
 
   const handleAddToCart = () => {
@@ -115,22 +115,22 @@ const Card = ({ id, data }) => {
           <img
             className="w-full h-full bg-blue-500 rounded-t-xl cursor-pointer"
             src=""
-            alt={data["name"]}
+            alt={data["product_name"]}
             onClick={handleOpenItem}
           />
         </div>
 
         <div className="p-1 w-full h-fit flex flex-col gap-2">
-          <AVG_RatingStars rating={data["average_rating"]} />
+          <AVG_RatingStars rating={data["product_rating"]} />
           <h3
             className="font-bold cursor-pointer hover:text-gray-200 "
             onClick={handleOpenItem}
           >
-            {data["name"]}
+            {data["product_name"]}
           </h3>
           <span className="flex justify-between text-[13px]">
-            <p className="font-bold">{data["price"]}</p>
-            <p>{data["quantity"]}</p>
+            <p className="font-bold">{data["product_price"]}</p>
+            <p>{data["product_quantity"]}</p>
           </span>
         </div>
         <div className="absolute bottom-0 w-full">

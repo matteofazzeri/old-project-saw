@@ -38,6 +38,15 @@ VALUES
   ('White');
 
 CREATE TABLE
+  colors_mapping (
+    product_id INT,
+    color_id INT,
+    PRIMARY KEY (product_id, color_id),
+    FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (color_id) REFERENCES product_colors (id) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+
+CREATE TABLE
   product_photos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT,
@@ -65,6 +74,15 @@ VALUES
   ('XXL'),
   ('XXXL');
 
+CREATE TABLE
+  sizes_mapping (
+    product_id INT,
+    size_id INT,
+    PRIMARY KEY (product_id, size_id),
+    FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (size_id) REFERENCES product_sizes (id) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+
 -- ! END OF GENERIC PRODUCT TABLE
 /*
  * subtables for the products table
@@ -84,15 +102,6 @@ CREATE TABLE
     FOREIGN KEY (product_id) REFERENCES products (id)
   );
 
-CREATE TABLE
-  spaceship_colors_mapping (
-    spaceship_id INT,
-    color_id INT,
-    PRIMARY KEY (spaceship_id, color_id),
-    FOREIGN KEY (spaceship_id) REFERENCES spaceships (product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (color_id) REFERENCES product_colors (id) ON DELETE CASCADE ON UPDATE CASCADE
-  );
-
 -- ! END OF SPACESHIP TABLES
 -- ! SPACESUIT TABLES
 CREATE TABLE
@@ -102,31 +111,13 @@ CREATE TABLE
     FOREIGN KEY (product_id) REFERENCES products (id)
   );
 
-CREATE TABLE
-  spacesuit_colors_mapping (
-    spacesuit_id INT,
-    color_id INT,
-    PRIMARY KEY (spacesuit_id, color_id),
-    FOREIGN KEY (spacesuit_id) REFERENCES spacesuits (product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (color_id) REFERENCES product_colors (id) ON DELETE CASCADE ON UPDATE CASCADE
-  );
-
-CREATE TABLE
-  spacesuit_sizes_mapping (
-    spacesuit_id INT,
-    size_id INT,
-    PRIMARY KEY (spacesuit_id, size_id),
-    FOREIGN KEY (spacesuit_id) REFERENCES spacesuits (product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (size_id) REFERENCES product_sizes (id) ON DELETE CASCADE ON UPDATE CASCADE
-  );
-
 -- ! END OF SPACESUIT TABLES
 /*
 ? queste si potrebbero anche omettere, da implementare come cosa facoltativa
 ? potremmo comunque lasciarli anche se a fine progetto non le usiamo che almeno sarebbe
 ? più completo il database, e potremmo giocarcelo come jolly all'orale per fare bella figura
 ? diciamo come una delle n funzionalità che il sito dovrebbe avere, ma che per ovvie ragioni non ha.
- */
+
 CREATE TABLE
   space_parts (
     product_id INT PRIMARY KEY,
@@ -166,7 +157,7 @@ CREATE TABLE
     manufacturer VARCHAR(100),
     FOREIGN KEY (product_id) REFERENCES products (id)
   );
-
+*/
 -- ! END OF PRODUCT SUBTABLES/TABLES
 /*
 TODO: 

@@ -1,7 +1,9 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { BsCartX } from "react-icons/bs";
 import { CircularLoader } from "./Loader";
 import { FaCartPlus } from "react-icons/fa";
+
+import serverURL from "../config/config";
 
 const AddToCartBtn = ({ data }) => {
   const [amount, setAmount] = useState(1);
@@ -10,18 +12,28 @@ const AddToCartBtn = ({ data }) => {
 
   const handleAddToCart = () => {
     setLoading(true);
+    let paylod = {
+      user_id: 1,
+      product_id: data["product_id"],
+      quantity: amount,
+    };
+
+    let inputData = JSON.stringify(
+      Object.fromEntries(
+        Object.entries(paylod).filter(([key, value]) => value !== "")
+      ),
+      null,
+      2
+    );
 
     if (inCart) {
       // remove the item from the cart
       let info = {
         method: "DELETE",
+        body: inputData,
       };
 
-      fetch(
-        serverURL.development.backendUrl +
-          `/shop_cart?user_id=1&item_id=${data["product_id"]}`,
-        info
-      )
+      fetch(serverURL.development.backendUrl + `/cart`, info)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -45,16 +57,10 @@ const AddToCartBtn = ({ data }) => {
           console.error("Fetch error:", error.message);
         });
     } else {
-      // add the item to the cart
-      let paylod = {
-        user_id: 1,
-        item_id: data["product_id"],
-        quantity: amount,
-      };
-
+      console.log(inputData);
       let info = {
         method: "POST",
-        body: paylod,
+        body: inputData,
       };
 
       fetch(serverURL.development.backendUrl + "/cart", info)
@@ -82,6 +88,45 @@ const AddToCartBtn = ({ data }) => {
         });
     }
   };
+
+  const checkElemInCart = () => {
+    setLoading(true);
+
+    let info = {
+      method: "GET",
+    };
+
+    console.log(`${serverURL.development.backendUrl}/cart?user_id=1&product_id=${data['product_id']}`);
+
+    fetch(`${serverURL.development.backendUrl}/cart?user_id=1&product_id=${data['product_id']}`, info)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+
+        // Check if the response content type is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return response.json();
+        } else {
+          // Handle non-JSON response (e.g., plain text or HTML)
+          return response.text();
+        }
+      })
+      .then((paylod) => {
+        console.log("Success:", paylod);
+        
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error.message);
+      });
+  };
+
+  useEffect(() => {
+    checkElemInCart();
+  }, []);
 
   return (
     <button

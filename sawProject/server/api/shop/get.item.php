@@ -48,10 +48,10 @@ switch ($categories) {
             )
         );
 
-        echo json_encode($res);
+        echo json_encode($res, JSON_PRETTY_PRINT);
         break;
 }
 
 
-
+http_response_code(200);
 exit();

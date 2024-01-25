@@ -3,8 +3,6 @@ import { FaRegStar, FaStar, FaCartPlus } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
 
 import AVG_RatingStars from "./AVG_RatingStars";
-import serverURL from "../config/config";
-
 import AddToCartBtn from "./AddToCartBtn";
 
 const Card = ({ data }) => {
@@ -17,7 +15,6 @@ const Card = ({ data }) => {
   const handleOpenItem = () => {
     // open the item page
     console.log("open: ", data["product_id"]);
-    console.log("data from card: ", data);
   };
 
   return (

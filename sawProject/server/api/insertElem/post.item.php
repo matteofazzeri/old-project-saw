@@ -49,8 +49,6 @@ function insertGenericProduct($data): int
 }
 
 
-
-
 switch ($categories) {
     case 'spaceships':
         // * check for missing data

@@ -12,6 +12,8 @@ if (strpos($requestURL, "forms")) {
     // TODO: send request to form.php file 
 } else if (strpos($requestURL, "shop")) {
     require __DIR__ . "/shop/shop.php";
+} else if (strpos($requestURL, "cart")) {
+    require __DIR__ . "/shop/cart/cart.php";
 } else if (strpos($requestURL, "users")) {
     require __DIR__ . "/users/users.php";
 }

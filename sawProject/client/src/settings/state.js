@@ -5,6 +5,7 @@ const state = proxy({
   color: "#EFBD48",
   form: "login",
   sidebarOpen: false,
+  numItemsInCart: "0",
 });
 
 const userInfo = proxy({

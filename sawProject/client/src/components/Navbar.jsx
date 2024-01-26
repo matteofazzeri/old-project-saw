@@ -1,5 +1,5 @@
-import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { React, useEffect, useState } from "react";
+import { Link, json } from "react-router-dom";
 import { useSnapshot } from "valtio";
 import { IoMenu, IoHome, IoCart, IoPerson } from "react-icons/io5";
 import { BiCartDownload } from "react-icons/bi";
@@ -7,11 +7,11 @@ import { BiCartDownload } from "react-icons/bi";
 import settings from "../settings/state";
 import { CircularLoader } from "./Loader";
 
-const Navbar = () => {
+const Navbar = ({ cartAmount }) => {
   let { isOpen, setIsOpen } = useState(false);
-  const [numItems, setNumItems] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [itemAmount, setItemAmount] = useState("");
 
   const { state, userInfo } = settings;
   const snapUser = useSnapshot(userInfo);
@@ -49,7 +49,6 @@ const Navbar = () => {
   };
 
   // * have fun with gps info thanks to ip address :D
-
   var requestOptions = {
     method: "GET",
   };
@@ -75,8 +74,9 @@ const Navbar = () => {
         .catch((error) => console.log("error", error));
     }
   };
-
-  shippingAddress();
+  useEffect(() => {
+    shippingAddress();
+  }, []);
 
   return (
     <>
@@ -189,20 +189,18 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li id="cart-show">
-                  <a href="/cart">
-                    <div className="relative bg-teal-300">
-                      <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-inherit"></div>
-                      <p
-                        id="num-item-cart"
-                        className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-black font-bold text-sm bg-none py-0 px-[3px]"
-                      >
-                        0{/* {numItems ? numItems : null} */}
-                      </p>
-                      {/* <IoCart size={"2rem"} /> */}
-
-                      <BiCartDownload size={"2rem"} />
-                    </div>
-                  </a>
+                  {/* <a href="/cart"> */}
+                  <div className="relative bg-teal-300">
+                    <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-inherit"></div>
+                    <p
+                      id="num-item-cart"
+                      className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-black font-bold text-sm bg-none py-0 px-[3px]"
+                    >
+                      {cartAmount}
+                    </p>
+                    <BiCartDownload size={"2rem"} />
+                  </div>
+                  {/* </a> */}
                 </li>
                 <li id="menu" onClick={setIsOpen}>
                   <IoMenu size={"2rem"} />

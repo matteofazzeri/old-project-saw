@@ -5,10 +5,63 @@ import { FaCartPlus } from "react-icons/fa";
 
 import serverURL from "../config/config";
 
-const AddToCartBtn = ({ data }) => {
+const AddToCartBtn = ({ data, handleSetCartAmount }) => {
   const [amount, setAmount] = useState(1);
   const [inCart, setInCart] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  async function checkElemInCart() {
+    setLoading(true);
+
+    let info = {
+      method: "GET",
+    };
+
+    await fetch(`${serverURL.development.backendUrl}/cart?user_id=1}`, info)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Check if the response content type is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return response.json();
+        } else {
+          // Handle non-JSON response (e.g., plain text or HTML)
+          return response.text();
+        }
+      })
+      .then((payload) => {
+        //console.log("inside func: ",payload);
+        const items = JSON.parse(payload);
+        console.log(items.length);
+        handleSetCartAmount((prevAmount) => items.length);
+        setInCart(items.some((item) => item.product_id === data["product_id"]));
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error.message);
+        return error;
+      });
+  }
+  useEffect(
+    () => {
+      const fetchData = async () => {
+        try {
+          const items = await checkElemInCart();
+          //console.log(items);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchData();
+      setLoading(false);
+    },
+    [
+      /* Dependencies */
+    ]
+  );
 
   const handleAddToCart = () => {
     setLoading(true);
@@ -49,15 +102,15 @@ const AddToCartBtn = ({ data }) => {
           }
         })
         .then((data) => {
-          console.log("Success:", data);
+          //console.log("Success:", data);
           setInCart(!inCart);
-          setLoading(false);
+          handleSetCartAmount((prevAmount) => prevAmount - 1);
         })
         .catch((error) => {
           console.error("Fetch error:", error.message);
-        });
+        })
+        .finally(setLoading(false));
     } else {
-      console.log(inputData);
       let info = {
         method: "POST",
         body: inputData,
@@ -79,54 +132,16 @@ const AddToCartBtn = ({ data }) => {
           }
         })
         .then((data) => {
-          console.log("Success:", data);
+          //onsole.log("Success:", data);
           setInCart(!inCart);
-          setLoading(false);
+          handleSetCartAmount((prevAmount) => prevAmount + 1);
         })
         .catch((error) => {
           console.error("Fetch error:", error.message);
-        });
+        })
+        .finally(setLoading(false));
     }
   };
-
-  const checkElemInCart = () => {
-    setLoading(true);
-
-    let info = {
-      method: "GET",
-    };
-
-    console.log(`${serverURL.development.backendUrl}/cart?user_id=1&product_id=${data['product_id']}`);
-
-    fetch(`${serverURL.development.backendUrl}/cart?user_id=1&product_id=${data['product_id']}`, info)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-
-        // Check if the response content type is JSON
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          return response.json();
-        } else {
-          // Handle non-JSON response (e.g., plain text or HTML)
-          return response.text();
-        }
-      })
-      .then((paylod) => {
-        console.log("Success:", paylod);
-        
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Fetch error:", error.message);
-      });
-  };
-
-  useEffect(() => {
-    checkElemInCart();
-  }, []);
 
   return (
     <button

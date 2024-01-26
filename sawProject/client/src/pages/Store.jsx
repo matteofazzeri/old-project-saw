@@ -11,6 +11,12 @@ import Footer from "../components/Footer";
 import { Loader } from "../components/Loader";
 
 const Store = () => {
+  const [cartAmount, setCartAmount] = useState(0);
+
+  const handleSetCartAmount = (amount) => {
+    setCartAmount(amount);
+  };
+
   // setup for loading animations
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -37,7 +43,7 @@ const Store = () => {
           .then((data) => {
             setItems(data);
             setLoading(false);
-            console.log(data);
+            //console.log(data);
             data.length === 0 ? setError(true) : setError(false);
           })
           .catch((err) => {
@@ -65,7 +71,7 @@ const Store = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar cartAmount={cartAmount} />
       <section className="w-full h-fit pt-4 mb-10 md:pt-12 text-white">
         <div
           id="card-container"
@@ -76,7 +82,11 @@ const Store = () => {
           ) : !loading && !error ? ( // ! to invert the condition
             <>
               {items.map((item) => (
-                <Card key={item.product_id} data={item} />
+                <Card
+                  key={item.product_id}
+                  data={item}
+                  handleSetCartAmount={handleSetCartAmount}
+                />
               ))}
             </>
           ) : (

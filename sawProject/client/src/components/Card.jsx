@@ -5,7 +5,7 @@ import { MdPayment } from "react-icons/md";
 import AVG_RatingStars from "./AVG_RatingStars";
 import AddToCartBtn from "./AddToCartBtn";
 
-const Card = ({ data }) => {
+const Card = ({ data, handleSetCartAmount }) => {
   const [wishList, setWishList] = useState(false);
 
   const handleWishList = () => {
@@ -58,7 +58,10 @@ const Card = ({ data }) => {
         </div>
         <div className="absolute bottom-0 w-full">
           <div className="flex flex-row justify-between p-2">
-            <AddToCartBtn data={data} />
+            <AddToCartBtn
+              data={data}
+              handleSetCartAmount={handleSetCartAmount}
+            />
             <button className="w-fit border-[1px] border-solid rounded-md py-2 px-4 border-green-700 bg-green-700 flex justify-center align-middle text-white">
               <MdPayment size={22} />
               <p className="text-sm">Buy Now</p>

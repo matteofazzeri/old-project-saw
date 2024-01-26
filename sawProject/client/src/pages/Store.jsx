@@ -71,8 +71,8 @@ const Store = () => {
 
   return (
     <>
-      <Navbar cartAmount={cartAmount} />
       <section className="w-full h-fit pt-4 mb-10 md:pt-12 text-white">
+        <Navbar cartAmount={cartAmount} />
         <div
           id="card-container"
           className="w-full md:w-[90%] min-h-[85vh] m-auto flex flex-col md:flex-row md:flex-wrap gap-4 mt-10 md:mt-8 xl:mt-12 2xl:mt-16 bg-white p-1"

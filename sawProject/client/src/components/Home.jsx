@@ -68,7 +68,7 @@ const Home = () => {
           <CustomButton
             customStyles={"bg-yellow-600 text-white w-fit"}
             handleClick={() => {
-              window.location.href = "/forms";
+              window.location.href = "/shop";
             }}
             title={snapUser.loggedIn ? "Continue Adventure" : "Start Adventure"}
           />

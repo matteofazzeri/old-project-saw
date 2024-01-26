@@ -81,7 +81,7 @@ const Navbar = ({ cartAmount }) => {
   return (
     <>
       <header className="fixed top-0 left-0 h-fit w-screen z-50 box-border bg-slate-700">
-        <nav className="w-full mx-auto">
+        <nav className="w-[95%] mx-auto">
           <ul className="w-full flex items-center justify-around py-1 text-white">
             <li className="hidden md:block max-w-[7%]">
               <Link to="/">
@@ -156,18 +156,19 @@ const Navbar = ({ cartAmount }) => {
                 </div>
               </a>
             </li>
-            <li className="hidden md:block mx-2">
+            <li id="cart-desktop" className="hidden md:block mx-2">
               <a href="/cart">
-                <span className="relative flex text-end bg-black">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24"
-                    viewBox="0 -960 960 960"
-                    width="24"
-                    fill="white"
-                  >
-                    <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
-                  </svg>
+                <span className="relative flex text-end ">
+                  <div className="relative">
+                    <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-slate-700"></div>
+                    <p
+                      id="num-item-cart"
+                      className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-yellow-500 font-semibold text-sm bg-none py-0 px-[3px]"
+                    >
+                      {cartAmount}
+                    </p>
+                    <BiCartDownload size={"2rem"} />
+                  </div>
                   <p>Carrello</p>
                 </span>
               </a>
@@ -188,19 +189,19 @@ const Navbar = ({ cartAmount }) => {
                     <IoPerson size={"2rem"} />
                   </a>
                 </li>
-                <li id="cart-show">
-                  {/* <a href="/cart"> */}
-                  <div className="relative bg-teal-300">
-                    <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-inherit"></div>
-                    <p
-                      id="num-item-cart"
-                      className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-black font-bold text-sm bg-none py-0 px-[3px]"
-                    >
-                      {cartAmount}
-                    </p>
-                    <BiCartDownload size={"2rem"} />
-                  </div>
-                  {/* </a> */}
+                <li id="cart-mobile">
+                  <a href="/cart">
+                    <div className="relative">
+                      <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-[#042247]"></div>
+                      <p
+                        id="num-item-cart"
+                        className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-yellow-500 font-semibold text-sm bg-none py-0 px-[3px]"
+                      >
+                        {cartAmount}
+                      </p>
+                      <BiCartDownload size={"2rem"} />
+                    </div>
+                  </a>
                 </li>
                 <li id="menu" onClick={setIsOpen}>
                   <IoMenu size={"2rem"} />

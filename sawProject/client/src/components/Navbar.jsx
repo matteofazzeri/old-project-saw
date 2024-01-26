@@ -1,16 +1,17 @@
-import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { React, useEffect, useState } from "react";
+import { Link, json } from "react-router-dom";
 import { useSnapshot } from "valtio";
 import { IoMenu, IoHome, IoCart, IoPerson } from "react-icons/io5";
 import { BiCartDownload } from "react-icons/bi";
 
 import settings from "../settings/state";
+import { CircularLoader } from "./Loader";
 
-const Navbar = () => {
+const Navbar = ({ cartAmount }) => {
   let { isOpen, setIsOpen } = useState(false);
-  const [numItems, setNumItems] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [itemAmount, setItemAmount] = useState("");
 
   const { state, userInfo } = settings;
   const snapUser = useSnapshot(userInfo);
@@ -48,30 +49,34 @@ const Navbar = () => {
   };
 
   // * have fun with gps info thanks to ip address :D
-
   var requestOptions = {
     method: "GET",
   };
 
-  // fetch where the user is if not logged
-  if (snapUser.loggedIn) {
-    document.getElementById("location").innerHTML = `${
-      "Send to" + snapUser.name + snapUser.address
-    }`;
-  } else {
-    fetch(
-      "https://api.geoapify.com/v1/ipinfo?&apiKey=fa4633f6309745f39484e1343fb0d8cf",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        //console.log(result);
-        document.getElementById("location").innerHTML = `${
-          "Sending to " + result.city.name
-        }`;
-      })
-      .catch((error) => console.log("error", error));
-  }
+  const shippingAddress = () => {
+    // fetch where the user is if not logged
+    if (snapUser.loggedIn) {
+      document.getElementById("location").innerHTML = `${
+        "Send to" + snapUser.name + snapUser.address
+      }`;
+    } else {
+      fetch(
+        "https://api.geoapify.com/v1/ipinfo?&apiKey=fa4633f6309745f39484e1343fb0d8cf",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          //console.log(result);
+          document.getElementById("location").innerHTML = `${
+            "Sending to " + result.city.name
+          }`;
+        })
+        .catch((error) => console.log("error", error));
+    }
+  };
+  useEffect(() => {
+    shippingAddress();
+  }, []);
 
   return (
     <>
@@ -85,12 +90,12 @@ const Navbar = () => {
             </li>
             <li className="hidden md:block w-[fit] cursor-pointer ">
               {false || (
-                <p
+                <div
                   id="location"
                   className="border-[1px] border-transparent hover:border-[1px] hover:border-white text-sm w-max mx-3"
                 >
-                  Location: Loading...
-                </p>
+                  <CircularLoader />
+                </div>
               )}
             </li>
             <li id="searchBar" className="h-[40px] w-full">
@@ -108,7 +113,9 @@ const Navbar = () => {
                   onChange={handleCategoryChange}
                 >
                   <option value="all">All</option>
-                  <option value="raceship">Race Spaceship</option>
+                  <option value="spaceship">Spaceships</option>
+                  <option value="spacesuit">Spacesuits</option>
+                  <option value="spacepart">Spaceparts</option>
                 </select>
                 <input
                   type="search"
@@ -182,20 +189,18 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li id="cart-show">
-                  <a href="/cart">
-                    <div className="relative bg-teal-300">
-                      <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-inherit"></div>
-                      <p
-                        id="num-item-cart"
-                        className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-black font-bold text-sm bg-none py-0 px-[3px]"
-                      >
-                        0{/* {numItems ? numItems : null} */}
-                      </p>
-                      {/* <IoCart size={"2rem"} /> */}
-
-                      <BiCartDownload size={"2rem"} />
-                    </div>
-                  </a>
+                  {/* <a href="/cart"> */}
+                  <div className="relative bg-teal-300">
+                    <div className="absolute top-[6px] left-[50%] -translate-x-[25%] w-[11px] h-[13px] rounded-xl bg-inherit"></div>
+                    <p
+                      id="num-item-cart"
+                      className="absolute -top-[3px] left-[50%] -translate-x-[38%] rounded-2xl text-black font-bold text-sm bg-none py-0 px-[3px]"
+                    >
+                      {cartAmount}
+                    </p>
+                    <BiCartDownload size={"2rem"} />
+                  </div>
+                  {/* </a> */}
                 </li>
                 <li id="menu" onClick={setIsOpen}>
                   <IoMenu size={"2rem"} />

@@ -13,9 +13,6 @@ function getElem($query_code, $data = [])
     $stmt->execute();
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    /* while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      array_push($result, $row);
-    } */
 
     $pdo = null;
     $stmt = null;

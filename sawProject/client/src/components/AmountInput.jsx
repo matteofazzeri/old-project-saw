@@ -50,6 +50,9 @@ const AmountInput = (data) => {
         })
         .catch((error) => {
           console.error("Fetch error:", error.message);
+        })
+        .finally(() => {
+          window.location.reload();
         });
     } catch (error) {
       // Log and handle errors

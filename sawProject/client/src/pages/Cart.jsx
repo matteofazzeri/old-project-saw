@@ -16,7 +16,7 @@ const Cart = ({ cartAmount, handleSetCartAmount }) => {
   function updateTotalPrice() {
     let total = 0;
     items.forEach((item) => {
-      total += parseFloat(item["product_price"]);
+      total += parseFloat(item["product_price"]) * parseFloat(item["quantity"]);
     });
     setTotalPrice(total);
   }

@@ -66,7 +66,7 @@ const Home = () => {
           className="w-full flex items-center justify-center mt-12 md:mt-24"
         >
           <CustomButton
-            customStyles={"bg-yellow-600 text-white w-fit"}
+            customStyles={"bg-yellow-600 text-white w-fit p-2 px-4 md:px-6 rounded-md"}
             handleClick={() => {
               window.location.href = "/shop";
             }}

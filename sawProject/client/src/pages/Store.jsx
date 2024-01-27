@@ -10,13 +10,7 @@ import Card from "../components/Card";
 import Footer from "../components/Footer";
 import { Loader } from "../components/Loader";
 
-const Store = () => {
-  const [cartAmount, setCartAmount] = useState(0);
-
-  const handleSetCartAmount = (amount) => {
-    setCartAmount(amount);
-  };
-
+const Store = ({ cartAmount, handleSetCartAmount }) => {
   // setup for loading animations
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -24,13 +18,12 @@ const Store = () => {
 
   // setup for search engine
   const location = useLocation();
-
   const params = new URLSearchParams(location.search);
   const category = params.get("categories");
   const search = params.get("search");
-
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000); // Abort the request after 5000 milliseconds
+
   const fetchData = async () => {
     try {
       if (category && search) {
@@ -59,27 +52,26 @@ const Store = () => {
       //console.log(error);
     }
   };
-
   useEffect(() => {
     fetchData();
-
-    /* console.log("Categories:", category);
-    console.log("Search:", search); */
   }, []);
 
   // TODO: PAGINATION WE NEED PAGINATION!!!!
 
   return (
     <>
-      <section className="w-full h-fit pt-4 mb-10 md:pt-12 text-white">
-        <Navbar cartAmount={cartAmount} />
+      <section className="w-full h-fit mt-[51px] mb-0 text-white">
+        <Navbar
+          cartAmount={cartAmount}
+          handleSetCartAmount={handleSetCartAmount}
+        />
         <div
           id="card-container"
-          className="w-full md:w-[90%] min-h-[85vh] m-auto flex flex-col md:flex-row md:flex-wrap gap-4 mt-10 md:mt-8 xl:mt-12 2xl:mt-16 bg-white p-1"
+          className="w-full md:w-[90%] min-h-screen h-fit m-auto flex flex-col md:flex-row md:flex-wrap gap-4 bg-white p-1"
         >
           {loading ? (
             <Loader />
-          ) : !loading && !error ? ( // ! to invert the condition
+          ) : !error ? ( // ! to invert the condition
             <>
               {items.map((item) => (
                 <Card

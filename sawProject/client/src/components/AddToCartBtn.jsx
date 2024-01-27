@@ -35,7 +35,7 @@ const AddToCartBtn = ({ data, handleSetCartAmount }) => {
       .then((payload) => {
         //console.log("inside func: ",payload);
         const items = JSON.parse(payload);
-        console.log(items.length);
+        //console.log(items.length);
         handleSetCartAmount((prevAmount) => items.length);
         setInCart(items.some((item) => item.product_id === data["product_id"]));
       })

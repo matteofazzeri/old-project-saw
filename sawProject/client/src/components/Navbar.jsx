@@ -6,12 +6,12 @@ import { BiCartDownload } from "react-icons/bi";
 
 import settings from "../settings/state";
 import { CircularLoader } from "./Loader";
+import serverURL from "../config/config";
 
-const Navbar = ({ cartAmount }) => {
+const Navbar = ({ cartAmount, handleSetCartAmount }) => {
   let { isOpen, setIsOpen } = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
-  const [itemAmount, setItemAmount] = useState("");
 
   const { state, userInfo } = settings;
   const snapUser = useSnapshot(userInfo);
@@ -78,10 +78,59 @@ const Navbar = ({ cartAmount }) => {
     shippingAddress();
   }, []);
 
+  async function checkElemInCart() {
+    let info = {
+      method: "GET",
+    };
+
+    await fetch(`${serverURL.development.backendUrl}/cart?user_id=1}`, info)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Check if the response content type is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return response.json();
+        } else {
+          // Handle non-JSON response (e.g., plain text or HTML)
+          return response.text();
+        }
+      })
+      .then((payload) => {
+        //console.log("inside func: ",payload);
+        const items = JSON.parse(payload);
+        //console.log(items.length);
+        handleSetCartAmount((prevAmount) => items.length);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error.message);
+        return error;
+      });
+  }
+  useEffect(
+    () => {
+      const fetchData = async () => {
+        try {
+          const items = await checkElemInCart();
+          //console.log(items);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchData();
+    },
+    [
+      /* Dependencies */
+    ]
+  );
+
   return (
     <>
-      <header className="fixed top-0 left-0 h-fit w-screen z-50 box-border bg-slate-700">
-        <nav className="w-[95%] mx-auto">
+      <header className="fixed top-0 left-0 h-[50px] w-screen z-50 box-border bg-slate-700">
+        <nav className="w-[95%] h-full mx-auto flex align-middle flex-row">
           <ul className="w-full flex items-center justify-around py-1 text-white">
             <li className="hidden md:block max-w-[7%]">
               <Link to="/">

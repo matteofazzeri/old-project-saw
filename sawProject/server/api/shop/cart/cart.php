@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     require __DIR__ . "/get.cart.php";
 } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    require __DIR__ . "/put.php";
+    require __DIR__ . "/update.cart.php";
 } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     require __DIR__ . "/delete.cart.php";
 } else {

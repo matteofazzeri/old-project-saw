@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { CircularLoader } from "../components/Loader";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import AmountInput from "../components/AmountInput";
 
 const Cart = ({ cartAmount, handleSetCartAmount }) => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,6 @@ const Cart = ({ cartAmount, handleSetCartAmount }) => {
           //console.log(err);
         })
         .finally(() => {
-          updateTotalPrice();
           setLoading(false);
         });
     } catch (error) {
@@ -45,16 +45,15 @@ const Cart = ({ cartAmount, handleSetCartAmount }) => {
     }
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    const fetchDataAndCalculateTotal = async () => {
+      await fetchData();
+    };
 
-  async function handleQuantityChange(e, id) {
-    try {
-      console.log(e);
-    } catch (error) {
-      //console.log(error);
-    }
-  }
+    fetchDataAndCalculateTotal();
+  }, []);
+  useEffect(() => {
+    updateTotalPrice();
+  }, [items]); // Include items as a dependency
 
   async function handleDeleteItem(id) {
     let payload = {
@@ -98,7 +97,7 @@ const Cart = ({ cartAmount, handleSetCartAmount }) => {
       );
 
       handleSetCartAmount((prevAmount) => prevAmount - 1);
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       console.error("Fetch error:", error.message);
     } finally {
@@ -106,7 +105,6 @@ const Cart = ({ cartAmount, handleSetCartAmount }) => {
       updateTotalPrice();
     }
   }
-
   return (
     <>
       <section className="w-full h-fit mt-[51px] mb-0 text-white">
@@ -141,14 +139,22 @@ const Cart = ({ cartAmount, handleSetCartAmount }) => {
                       <p>{item["product_price"]}</p>
                     </span>
 
-                    <span className="flex flex-row w-fit h-fit outline-none p-1 text-black font-normal">
+                    <div className="w-full h-full p-1 flex justify-between align-middle flex-row  bg-purple-500 outline-none text-black font-normal">
+                      <AmountInput
+                        userId={"1"}
+                        product_id={item["product_id"]}
+                        amount={item["quantity"]}
+                      />
                       <span
-                        className="w-fit h-fit bg-blue-300"
+                        className="w-fit h-fit flex align-middle cursor-pointer"
                         onClick={() => handleDeleteItem(item["product_id"])}
                       >
-                        <RiDeleteBin6Line />
+                        <span className="flex align-middle flex-row">
+                          <RiDeleteBin6Line className="mt-[3px]" />{" "}
+                          <p>Remove</p>
+                        </span>
                       </span>
-                    </span>
+                    </div>
                   </div>
                 </div>
               ))}

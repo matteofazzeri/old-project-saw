@@ -64,8 +64,8 @@
             if(!isset($_COOKIE["username"])) {
                 echo '<form action="login.php" method="post">
                 <fieldset>
-                    <input type="text" name="username" placeholder="Username" required value="<?php echo $username; ?>"><br><span class="error"><?php echo $username_error; ?></span><br>
-                    <input type="password" name="password" placeholder="Password" required value="<?php echo $password; ?>"><br><span class="error"><?php echo $password_error; ?></span><br>
+                    <input type="text" name="username" placeholder="Username"><br><span class="error"><?php echo $username_error; ?></span><br>
+                    <input type="password" name="password" placeholder="Password"><br><span class="error"><?php echo $password_error; ?></span><br>
                     <input type="checkbox" name="remember" value="1">Remember me<br>
                     <input type="submit" value="Login">
                 </fieldset>

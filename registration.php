@@ -104,11 +104,11 @@
             if(!isset($_COOKIE["username"])) {
                 echo '<form action="registration.php" method="post">
                 <fieldset>
-                    <input type="text" name="firstname" placeholder="First name" required value="<?php echo $firstname; ?>"><br><span class="error"><?php echo $firstname_error; ?></span><br>
-                    <input type="text" name="lastname" placeholder="Last name" required value="<?php echo $lastname; ?>"><br><span class="error"><?php echo $lastname_error; ?></span><br>
-                    <input type="text" name="username" placeholder="Username" required value="<?php echo $username; ?>"><br><span class="error"><?php echo $username_error; ?></span><br>
-                    <input type="password" name="password" placeholder="Password" required value="<?php echo $password; ?>"><br><span class="error"><?php echo $password_error; ?></span><br>
-                    <input type="password" name="confirm" placeholder="Confirm password" required value="<?php echo $confirm_password; ?>"><br><span class="error"><?php echo $confirm_password_error; ?></span><br>
+                    <input type="text" name="firstname" placeholder="First name"><br><span class="error"><?php echo $firstname_error; ?></span><br>
+                    <input type="text" name="lastname" placeholder="Last name"><br><span class="error"><?php echo $lastname_error; ?></span><br>
+                    <input type="text" name="username" placeholder="Username"><br><span class="error"><?php echo $username_error; ?></span><br>
+                    <input type="password" name="password" placeholder="Password"><br><span class="error"><?php echo $password_error; ?></span><br>
+                    <input type="password" name="confirm" placeholder="Confirm password"><br><span class="error"><?php echo $confirm_password_error; ?></span><br>
                     <input type="submit" value="Sign up">
                 </fieldset>
             </form>';

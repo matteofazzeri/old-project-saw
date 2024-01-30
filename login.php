@@ -1,4 +1,12 @@
 <?php
+
+    //manca l'include
+
+    if(isLogged()){
+        header("Location: home.php");
+        exit();
+    }
+
     $username = $pass = $remember = "";
     $username_error = $password_error = "";
     session_start();

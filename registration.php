@@ -1,4 +1,12 @@
 <?php
+
+    //manca l'include
+
+    if(isLogged()) {
+        header("Location: home.php");
+        exit();
+    }
+
     $firstname = $lastname = $username = $password = $confirm_password = "";
     $firstname_error = $lastname_error = $username_error = $password_error = $confirm_password_error = $already_registered_error = "";
 
@@ -56,6 +64,12 @@
         }
 
         require "connect.php";
+
+        if(!checkAll($firstname, $lastname, $username, $password, $confirm_password)) {
+            echo "Error -> unable to register" . "<br/>";
+            header("Location: registration.php");
+            die();
+        }
         
         //Devo controllare se l'utente è già presente tra gli utenti registrati
         if(empty($username_error) && empty($password_error)) {
@@ -103,15 +117,15 @@
         <?php
             if(!isset($_COOKIE["username"])) {
                 echo '<form action="registration.php" method="post">
-                <fieldset>
-                    <input type="text" name="firstname" placeholder="First name"><br><span class="error"><?php echo $firstname_error; ?></span><br>
-                    <input type="text" name="lastname" placeholder="Last name"><br><span class="error"><?php echo $lastname_error; ?></span><br>
-                    <input type="text" name="username" placeholder="Username"><br><span class="error"><?php echo $username_error; ?></span><br>
-                    <input type="password" name="password" placeholder="Password"><br><span class="error"><?php echo $password_error; ?></span><br>
-                    <input type="password" name="confirm" placeholder="Confirm password"><br><span class="error"><?php echo $confirm_password_error; ?></span><br>
-                    <input type="submit" value="Sign up">
-                </fieldset>
-            </form>';
+                    <fieldset>
+                        <input type="text" name="firstname" placeholder="First name"><br><span class="error"><?php echo $firstname_error; ?></span><br>
+                        <input type="text" name="lastname" placeholder="Last name"><br><span class="error"><?php echo $lastname_error; ?></span><br>
+                        <input type="text" name="username" placeholder="Username"><br><span class="error"><?php echo $username_error; ?></span><br>
+                        <input type="password" name="password" placeholder="Password"><br><span class="error"><?php echo $password_error; ?></span><br>
+                        <input type="password" name="confirm" placeholder="Confirm password"><br><span class="error"><?php echo $confirm_password_error; ?></span><br>
+                        <input type="submit" value="Sign up">
+                    </fieldset>
+                </form>';
             } else {
                 header("Location: home.php");
             }
